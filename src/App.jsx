@@ -38,6 +38,12 @@ import ViewApplications from "./Pages/company/ViewApplications";
 import PostInternship from "./Pages/company/PostInternship";
 import CompanyNotifications from "./Pages/company/CompanyNotifications";
 import CreateEvent from "./Pages/company/ CreateEvent";
+import AdminDashboard from "./Pages/Admin/AdminDashboard";
+import ManageUsers from "./Pages/Admin/ManageUsers";
+import ManageJobs from "./Pages/Admin/ManageJobs";
+import ManageEvents from "./Pages/Admin/ManageEvents";
+import ManageDiscussions from "./Pages/Admin/ManageDiscussions";
+import ManageResources from "./Pages/Admin/ManageResources";
 const App = ()=>{
   return (
     <Router>
@@ -69,8 +75,8 @@ const App = ()=>{
             <Route path="/alumni/profile" element={<AlumniProfile />} />
             <Route path="/alumni/notifications" element = {<AlumniNotifications/>}/>
             <Route path="/dashboard-faculty"  element={<FacultyDashboard/>} />
-            < Route path="/faculty/mentorship" element={<FacultyMentorship/>} />
-            < Route path="/faculty/events" element={<FacultyEvents/>} />
+            <Route path="/faculty/mentorship" element={<FacultyMentorship/>} />
+            <Route path="/faculty/events" element={<FacultyEvents/>} />
             <Route path="/faculty/resources" element={<FacultyResources/>} /> 
             <Route path="/faculty/discussions" element={<FacultyDiscussions/>} />
             <Route path="/faculty/notifications" element={<FacultyNotifications/>} />
@@ -82,7 +88,13 @@ const App = ()=>{
             <Route path="/company/internships" element={<PostInternship />} />
             <Route path="/company/notifications" element = {<CompanyNotifications/>} />
             <Route path="/company/event" element={<CreateEvent/>} />
-
+            <Route path="/dashboard-admin" element={<AdminDashboard/>} />
+            <Route path="/admin/users" element={<ManageUsers/>} />
+            <Route path="/admin/jobs" element={<ManageJobs/>} />
+            <Route path="/admin/events" element={< ManageEvents/>} />
+            <Route path="/admin/discussions" element={<ManageDiscussions />} />
+            <Route path="/admin/resources" element={<ManageResources/>} />
+            {/* <Route path="/admin/internships" element={</>} /> */}
             </Routes>
         </div>
       </div>
