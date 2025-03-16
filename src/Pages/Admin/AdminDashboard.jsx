@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
+import MoreStatus from "./moreStatus";
 import { 
   FaUsers, FaBriefcase, FaCalendarAlt, FaComment, FaFileAlt, FaBars, FaTimes, 
   FaUserCircle, FaGraduationCap, FaChartPie 
@@ -11,7 +12,7 @@ const AdminDashboard = () => {
   return (
     <div className="flex min-h-screen bg-gray-100">
       {/* Sidebar */}
-      <div className={`bg-blue-900 text-white w-64 space-y-6 px-4 py-6 transition-transform 
+      <div className={`bg-blue-900 text-white w-64 space-y-6 px-4 py-6 transition-transform  mt-24 h-screen
       ${isSidebarOpen ? "translate-x-0" : "-translate-x-64"} md:translate-x-0 fixed md:relative h-full`}>
         <button
           className="absolute top-4 right-4 text-white md:hidden"
@@ -64,6 +65,8 @@ const AdminDashboard = () => {
         <div className="p-6">
           <h2 className="text-xl font-semibold text-gray-700 mb-4">Welcome, Admin!</h2>
           <p className="text-gray-600">Use the sidebar to manage users, jobs, events, discussions, internships, and more.</p>
+          {/* {MoreStatus} */}
+          <MoreStatus/>
         </div>
       </div>
     </div>

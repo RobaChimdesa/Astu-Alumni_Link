@@ -41,9 +41,12 @@ import CreateEvent from "./Pages/company/ CreateEvent";
 import AdminDashboard from "./Pages/Admin/AdminDashboard";
 import ManageUsers from "./Pages/Admin/ManageUsers";
 import ManageJobs from "./Pages/Admin/ManageJobs";
+import ManageInternships from "./Pages/Admin/ManageInternships";
 import ManageEvents from "./Pages/Admin/ManageEvents";
 import ManageDiscussions from "./Pages/Admin/ManageDiscussions";
 import ManageResources from "./Pages/Admin/ManageResources";
+import Profile from "./Pages/Admin/Profile";
+import Status from "./Pages/Admin/Status";
 const App = ()=>{
   return (
     <Router>
@@ -91,10 +94,12 @@ const App = ()=>{
             <Route path="/dashboard-admin" element={<AdminDashboard/>} />
             <Route path="/admin/users" element={<ManageUsers/>} />
             <Route path="/admin/jobs" element={<ManageJobs/>} />
+            <Route path="/admin/internships" element={<ManageInternships/>} />
             <Route path="/admin/events" element={< ManageEvents/>} />
             <Route path="/admin/discussions" element={<ManageDiscussions />} />
             <Route path="/admin/resources" element={<ManageResources/>} />
-            {/* <Route path="/admin/internships" element={</>} /> */}
+            <Route path="/admin/profile" element={<Profile/>} />
+            <Route path="/admin/status" element={<Status/>} />
             </Routes>
         </div>
       </div>
