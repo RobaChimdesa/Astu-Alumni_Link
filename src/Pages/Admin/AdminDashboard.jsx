@@ -1,74 +1,126 @@
+
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import MoreStatus from "./moreStatus";
-import { 
-  FaUsers, FaBriefcase, FaCalendarAlt, FaComment, FaFileAlt, FaBars, FaTimes, 
-  FaUserCircle, FaGraduationCap, FaChartPie 
+import {
+  FaUsers,
+  FaBriefcase,
+  FaCalendarAlt,
+  FaComment,
+  FaFileAlt,
+  FaBars,
+  FaTimes,
+  FaUserCircle,
+  FaGraduationCap,
+  FaChartPie,
 } from "react-icons/fa";
+import Navbar from "../../Components/Navbar";
+import Footer from "../../Components/Footer";
 
 const AdminDashboard = () => {
-  const [isSidebarOpen, setIsSidebarOpen] = useState(true);
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false); // Default to false for mobile
 
   return (
-    <div className="flex min-h-screen bg-gray-100">
-      {/* Sidebar */}
-      <div className={`bg-blue-900 text-white w-64 space-y-6 px-4 py-6 transition-transform  mt-24 h-screen
-      ${isSidebarOpen ? "translate-x-0" : "-translate-x-64"} md:translate-x-0 fixed md:relative h-full`}>
-        <button
-          className="absolute top-4 right-4 text-white md:hidden"
-          onClick={() => setIsSidebarOpen(false)}
+    <div className="bg-gradient-to-b from-gray-50 to-blue-50 min-h-screen flex flex-col">
+      <Navbar />
+      <div className="flex flex-1">
+        {/* Sidebar - Fixed at Left End */}
+        <div
+          className={`bg-white text-black w-64 space-y-12 px-4 py-6 fixed inset-y-0 left-0 z-50 transition-transform h-full ${
+            isSidebarOpen ? "translate-x-0" : "-translate-x-64"
+          } md:translate-x-0`}
         >
-          <FaTimes size={24} />
-        </button>
-        <h2 className="text-2xl font-bold text-center">Admin Panel</h2>
-        <nav className="mt-10 space-y-4">
-          <Link to="/admin/users" className="flex items-center space-x-2 p-3 rounded-md hover:bg-blue-700">
-            <FaUsers /> <span>Manage Users</span>
-          </Link>
-          <Link to="/admin/jobs" className="flex items-center space-x-2 p-3 rounded-md hover:bg-blue-700">
-            <FaBriefcase /> <span>Manage Jobs</span>
-          </Link>
-          <Link to="/admin/internships" className="flex items-center space-x-2 p-3 rounded-md hover:bg-blue-700">
-            <FaGraduationCap /> <span>Manage Internships</span>
-          </Link>
-          <Link to="/admin/events" className="flex items-center space-x-2 p-3 rounded-md hover:bg-blue-700">
-            <FaCalendarAlt /> <span>Manage Events</span>
-          </Link>
-          <Link to="/admin/discussions" className="flex items-center space-x-2 p-3 rounded-md hover:bg-blue-700">
-            <FaComment /> <span>Manage Discussions</span>
-          </Link>
-          <Link to="/admin/resources" className="flex items-center space-x-2 p-3 rounded-md hover:bg-blue-700">
-            <FaFileAlt /> <span>Manage Resources</span>
-          </Link>
-         
-         
-          <Link to="/admin/status" className="flex items-center space-x-2 p-3 rounded-md hover:bg-blue-700">
-            <FaChartPie /> <span>User Status</span>
-          </Link>
-          <Link to="/admin/profile" className="flex items-center space-x-2 p-3 rounded-md hover:bg-blue-700">
-            <FaUserCircle /> <span>Profile</span>
-          </Link>
-        </nav>
-      </div>
-
-      {/* Main Content */}
-      <div className="flex-1 flex flex-col">
-        {/* Top Bar */}
-        <div className="bg-white shadow-md p-4 flex justify-between items-center">
-          <button className="text-blue-900 md:hidden" onClick={() => setIsSidebarOpen(true)}>
-            <FaBars size={24} />
+          <button
+            className="absolute top-4 right-4 text-white md:hidden"
+            onClick={() => setIsSidebarOpen(false)}
+          >
+            <FaTimes size={24} />
           </button>
-          <h1 className="text-2xl font-bold">Admin Dashboard</h1>
+          <h2 className="text-xl sm:text-2xl font-semibold text-blue-600 mb-4 animate-fade-in-down">
+                Quick Links
+              </h2>
+          <nav className="mt-10 space-y-4">
+            <Link
+              to="/admin/users"
+              className="block bg-gray-50 p-3 sm:p-4 rounded-lg shadow-md hover:shadow-lg hover:bg-gray-100 transition-all duration-300 flex items-center justify-between border-l-4 border-blue-500 transform hover:scale-[1.02]"
+            >
+              <FaUsers size={20} /> <span className="text-sm sm:text-base">Manage Users</span>
+            </Link>
+            <Link
+              to="/admin/jobs"
+              className="block bg-gray-50 p-3 sm:p-4 rounded-lg shadow-md hover:shadow-lg hover:bg-gray-100 transition-all duration-300 flex items-center justify-between border-l-4 border-blue-500 transform hover:scale-[1.02]"
+            >
+              <FaBriefcase size={20} /> <span className="text-sm sm:text-base">Manage Jobs</span>
+            </Link>
+            <Link
+              to="/admin/internships"
+              className="block bg-gray-50 p-3 sm:p-4 rounded-lg shadow-md hover:shadow-lg hover:bg-gray-100 transition-all duration-300 flex items-center justify-between border-l-4 border-blue-500 transform hover:scale-[1.02]"
+            >
+              <FaGraduationCap size={20} /> <span className="text-sm sm:text-base">Manage Internships</span>
+            </Link>
+            <Link
+              to="/admin/events"
+              className="block bg-gray-50 p-3 sm:p-4 rounded-lg shadow-md hover:shadow-lg hover:bg-gray-100 transition-all duration-300 flex items-center justify-between border-l-4 border-blue-500 transform hover:scale-[1.02]"
+            >
+              <FaCalendarAlt size={20} /> <span className="text-sm sm:text-base">Manage Events</span>
+            </Link>
+            <Link
+              to="/admin/discussions"
+              className="block bg-gray-50 p-3 sm:p-4 rounded-lg shadow-md hover:shadow-lg hover:bg-gray-100 transition-all duration-300 flex items-center justify-between border-l-4 border-blue-500 transform hover:scale-[1.02]"
+            >
+              <FaComment size={20} /> <span className="text-sm sm:text-base">Manage Discussions</span>
+            </Link>
+            <Link
+              to="/admin/resources"
+              className="block bg-gray-50 p-3 sm:p-4 rounded-lg shadow-md hover:shadow-lg hover:bg-gray-100 transition-all duration-300 flex items-center justify-between border-l-4 border-blue-500 transform hover:scale-[1.02]"
+            >
+              <FaFileAlt size={20} /> <span className="text-sm sm:text-base">Manage Resources</span>
+            </Link>
+            <Link
+              to="/admin/status"
+              className="block bg-gray-50 p-3 sm:p-4 rounded-lg shadow-md hover:shadow-lg hover:bg-gray-100 transition-all duration-300 flex items-center justify-between border-l-4 border-blue-500 transform hover:scale-[1.02]"
+            >
+              <FaChartPie size={20} /> <span className="text-sm sm:text-base">User Status</span>
+            </Link>
+            <Link
+              to="/admin/profile"
+              className="block bg-gray-50 p-3 sm:p-4 rounded-lg shadow-md hover:shadow-lg hover:bg-gray-100 transition-all duration-300 flex items-center justify-between border-l-4 border-blue-500 transform hover:scale-[1.02]"
+            >
+              <FaUserCircle size={20} /> <span className="text-sm sm:text-base">Profile</span>
+            </Link>
+          </nav>
         </div>
 
-        {/* Dashboard Content */}
-        <div className="p-6">
-          <h2 className="text-xl font-semibold text-gray-700 mb-4">Welcome, Admin!</h2>
-          <p className="text-gray-600">Use the sidebar to manage users, jobs, events, discussions, internships, and more.</p>
-          {/* {MoreStatus} */}
-          <MoreStatus/>
+        {/* Main Content - Centered */}
+        <div className="flex-1 flex flex-col max-w-[90rem] mx-auto px-4 sm:px-6 py-8 sm:py-12 lg:py-16 w-full">
+          {/* Dashboard Header */}
+          <div className="bg-white shadow-md p-4 sm:p-6 flex justify-between items-center max-w-5xl mx-auto w-full rounded-xl">
+            <button
+              className="text-blue-900 md:hidden"
+              onClick={() => setIsSidebarOpen(true)}
+            >
+              <FaBars size={24} />
+            </button>
+            <h1 className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-indigo-600">
+              Admin Dashboard
+            </h1>
+          </div>
+
+          {/* Dashboard Content */}
+          <div className="flex-1 max-w-5xl mx-auto w-full mt-6 sm:mt-8">
+            <div className="bg-white p-4 sm:p-6 lg:p-8 rounded-xl shadow-lg">
+              <h2 className="text-xl sm:text-2xl font-semibold text-gray-700 mb-4 sm:mb-6">
+                Welcome, Admin!
+              </h2>
+              <p className="text-gray-600 text-sm sm:text-base mb-6">
+                Use the sidebar to manage users, jobs, events, discussions, internships, and more.
+              </p>
+              <MoreStatus />
+            </div>
+          </div>
         </div>
       </div>
+      <Footer />
     </div>
   );
 };
