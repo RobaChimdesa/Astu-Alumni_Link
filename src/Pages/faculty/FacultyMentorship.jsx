@@ -80,84 +80,75 @@ const FacultyMentorship = () => {
   const handleAction = (id, action) => {
     setRequests(
       requests.map((req) =>
-        req.id === id 
-          ? { ...req, status: action === "accept" ? "Accepted" : "Declined" } 
+        req.id === id
+          ? { ...req, status: action === "accept" ? "Accepted" : "Declined" }
           : req
       )
     );
   };
 
   return (
-    <div className="bg-gradient-to-b from-gray-50 to-gray-100 min-h-screen font-sans">
+    <div className="bg-gradient-to-b from-gray-50 to-blue-50 min-h-screen flex flex-col">
       <Navbar />
-      <main className="container mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        <header className="text-center mb-10">
-          <h1 className="text-4xl md:text-5xl font-extrabold text-blue-800 mb-2">
-            Mentorship Dashboard
-          </h1>
-          <p className="text-gray-600 text-lg">Manage your student mentorship requests</p>
-        </header>
+      <div className="flex-1 max-w-7xl mx-auto px-4 sm:px-6 py-8 sm:py-12 lg:py-16">
+        {/* Title */}
+        <h1 className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-center text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-indigo-600 mb-6 sm:mb-8 animate-fade-in-down">
+          Mentorship Requests
+        </h1>
 
-        <section className="bg-white rounded-xl shadow-lg p-6 md:p-8">
+        {/* Mentorship Listings */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
           {requests.length > 0 ? (
-            <ul className="space-y-4">
-              {requests.map((req) => (
-                <li
-                  key={req.id}
-                  className={`flex flex-col sm:flex-row justify-between items-start sm:items-center p-5 rounded-lg transition-all duration-300 ${
-                    req.status === "Accepted"
-                      ? "bg-green-50 border-l-4 border-green-500"
-                      : req.status === "Declined"
-                      ? "bg-red-50 border-l-4 border-red-500"
-                      : "bg-blue-50 border-l-4 border-blue-500 hover:shadow-md"
-                  }`}
-                >
-                  <div className="mb-3 sm:mb-0">
-                    <span className="text-lg font-medium text-gray-800 block">
-                      {req.student}
-                    </span>
-                    <span className="text-sm text-gray-600">
-                      {req.field} •{" "}
-                      <span
-                        className={`font-semibold ${
-                          req.status === "Accepted"
-                            ? "text-green-600"
-                            : req.status === "Declined"
-                            ? "text-red-600"
-                            : "text-blue-600"
-                        }`}
-                      >
-                        {req.status}
-                      </span>
-                    </span>
+            requests.map((req) => (
+              <div
+                key={req.id}
+                className="bg-white p-4 sm:p-6 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-[1.02] border-l-4 border-blue-500"
+              >
+                <h3 className="text-lg sm:text-xl md:text-2xl font-semibold text-gray-800 mb-2 truncate">
+                  {req.student}
+                </h3>
+                <p className="text-gray-600 text-sm sm:text-base">
+                  <span className="font-medium">Field:</span> {req.field}
+                </p>
+                <p className="text-gray-700 font-semibold text-sm sm:text-base mt-1">
+                  <span className="font-medium">Status:</span>{" "}
+                  <span
+                    className={
+                      req.status === "Accepted"
+                        ? "text-green-600"
+                        : req.status === "Declined"
+                        ? "text-red-600"
+                        : "text-blue-600"
+                    }
+                  >
+                    {req.status}
+                  </span>
+                </p>
+                {req.status === "Pending" && (
+                  <div className="mt-4 flex flex-col sm:flex-row gap-2">
+                    <button
+                      className="w-full bg-gradient-to-r from-blue-600 to-indigo-600 text-white font-semibold px-4 py-2 sm:px-6 sm:py-3 rounded-lg hover:from-blue-700 hover:to-indigo-700 transition-all duration-300 shadow-md"
+                      onClick={() => handleAction(req.id, "accept")}
+                    >
+                      Accept
+                    </button>
+                    <button
+                      className="w-full bg-gradient-to-r from-gray-600 to-gray-500 text-white font-semibold px-4 py-2 sm:px-6 sm:py-3 rounded-lg hover:from-gray-700 hover:to-gray-600 transition-all duration-300 shadow-md"
+                      onClick={() => handleAction(req.id, "decline")}
+                    >
+                      Decline
+                    </button>
                   </div>
-                  {req.status === "Pending" && (
-                    <div className="flex space-x-3">
-                      <button
-                        className="bg-green-600 text-white px-4 py-2 rounded-md hover:bg-green-700 focus:ring-2 focus:ring-green-500 focus:ring-offset-2 transition-all duration-200 ease-in-out transform hover:scale-105"
-                        onClick={() => handleAction(req.id, "accept")}
-                      >
-                        Accept
-                      </button>
-                      <button
-                        className="bg-red-600 text-white px-4 py-2 rounded-md hover:bg-red-700 focus:ring-2 focus:ring-red-500 focus:ring-offset-2 transition-all duration-200 ease-in-out transform hover:scale-105"
-                        onClick={() => handleAction(req.id, "decline")}
-                      >
-                        Decline
-                      </button>
-                    </div>
-                  )}
-                </li>
-              ))}
-            </ul>
+                )}
+              </div>
+            ))
           ) : (
-            <div className="text-center py-12">
-              <p className="text-gray-500 text-lg italic">No mentorship requests at this time.</p>
-              <p className="text-gray-400 text-sm mt-2">Check back later for new requests.</p>
-            </div>
+            <p className="text-gray-600 text-center text-sm sm:text-base col-span-full py-6">
+              No mentorship requests at this time.
+            </p>
           )}
-        </section>
-      </main>
+        </div>
+      </div>
       <Footer />
     </div>
   );

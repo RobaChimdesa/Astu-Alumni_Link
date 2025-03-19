@@ -29,6 +29,7 @@ import FacultyMentorship from "./Pages/faculty/FacultyMentorship";
 import FacultyEvents from "./Pages/faculty/FacultyEvents";
 import FacultyResources from "./Pages/faculty/ FacultyResources";
 import FacultyDiscussions from "./Pages/faculty/FacultyDiscussions";
+import FacultyCreateDiscussion from "./Pages/faculty/CreateDiscussion";
 import FacultyNotifications from "./Pages/faculty/ FacultyNotifications";
 import FacultyProfile from "./Pages/faculty/FacultyProfile";
 import CompanyDashboard from "./Pages/company/CompanyDashboard";
@@ -84,6 +85,7 @@ const App = ()=>{
             <Route path="/faculty/discussions" element={<FacultyDiscussions/>} />
             <Route path="/faculty/notifications" element={<FacultyNotifications/>} />
             <Route path="/faculty/profile" element ={<FacultyProfile/>} />
+            <Route path="/faculty/create-discussion" element={<FacultyCreateDiscussion/>} />
             <Route path="/dashboard-company" element={<CompanyDashboard/>} />
             <Route path="/company/profile" element = {<CompanyProfile/>} />
             <Route path="/company/post-job" element = {<PostJob/>} />

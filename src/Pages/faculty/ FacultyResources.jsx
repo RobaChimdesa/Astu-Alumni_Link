@@ -1,4 +1,3 @@
-
 import React, { useState } from "react";
 import Navbar from "../../Components/Navbar";
 import Footer from "../../Components/Footer";
@@ -35,85 +34,130 @@ const FacultyResources = () => {
   };
 
   return (
-    <div className="bg-gray-100 min-h-screen">
+    <div className="bg-gradient-to-b from-gray-50 to-blue-50 min-h-screen flex flex-col">
       <Navbar />
-      <div className="max-w-4xl mx-auto px-6 py-12">
-        <h1 className="text-3xl font-bold text-blue-700 text-center mb-6">
+      <div className="flex-1 max-w-7xl mx-auto px-4 sm:px-6 py-8 sm:py-12 lg:py-16">
+        {/* Title */}
+        <h1 className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-center text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-indigo-600 mb-6 sm:mb-8 animate-fade-in-down">
           Faculty Resource Management
         </h1>
 
-        {/* Upload Resource Form */}
-        <div className="bg-white p-6 rounded-lg shadow-md mb-6">
-          <h2 className="text-xl font-semibold text-gray-700 mb-4">Upload New Resource</h2>
-          <form onSubmit={addResource} className="space-y-4">
-            <input
-              type="text"
-              name="title"
-              value={newResource.title}
-              onChange={handleChange}
-              placeholder="Resource Title"
-              required
-              className="w-full p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500"
-            />
-            <select
-              name="type"
-              value={newResource.type}
-              onChange={handleChange}
-              required
-              className="w-full p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500"
-            >
-              <option value="">Select Resource Type</option>
-              <option value="PDF">PDF</option>
-              <option value="Video">Video</option>
-              <option value="Presentation">Presentation</option>
-              <option value="Document">Document</option>
-            </select>
-            <input
-              type="url"
-              name="link"
-              value={newResource.link}
-              onChange={handleChange}
-              placeholder="Resource Link"
-              required
-              className="w-full p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500"
-            />
-            <button
-              type="submit"
-              className="w-full bg-green-600 text-white px-6 py-3 rounded-lg hover:bg-green-700 transition duration-300"
-            >
-              Upload Resource
-            </button>
-          </form>
-        </div>
+        {/* Resources Card */}
+        <div className="bg-white p-4 sm:p-6 md:p-8 rounded-xl shadow-xl animate-fade-in">
+          <div className="space-y-4 sm:space-y-6">
+            {/* Upload Resource Form */}
+            <div>
+              <label
+                htmlFor="title"
+                className="block text-gray-700 font-medium mb-2 text-sm sm:text-base md:text-lg"
+              >
+                Resource Title
+              </label>
+              <input
+                type="text"
+                id="title"
+                name="title"
+                value={newResource.title}
+                onChange={handleChange}
+                placeholder="Resource Title"
+                required
+                className="w-full p-3 sm:p-4 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all duration-300 placeholder-gray-400 text-gray-600 text-sm sm:text-base md:text-lg"
+              />
+            </div>
+            <div>
+              <label
+                htmlFor="type"
+                className="block text-gray-700 font-medium mb-2 text-sm sm:text-base md:text-lg"
+              >
+                Resource Type
+              </label>
+              <select
+                id="type"
+                name="type"
+                value={newResource.type}
+                onChange={handleChange}
+                required
+                className="w-full p-3 sm:p-4 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all duration-300 text-gray-600 text-sm sm:text-base md:text-lg"
+              >
+                <option value="">Select Resource Type</option>
+                <option value="PDF">PDF</option>
+                <option value="Video">Video</option>
+                <option value="Presentation">Presentation</option>
+                <option value="Document">Document</option>
+              </select>
+            </div>
+            <div>
+              <label
+                htmlFor="link"
+                className="block text-gray-700 font-medium mb-2 text-sm sm:text-base md:text-lg"
+              >
+                Resource Link
+              </label>
+              <input
+                type="url"
+                id="link"
+                name="link"
+                value={newResource.link}
+                onChange={handleChange}
+                placeholder="Resource Link"
+                required
+                className="w-full p-3 sm:p-4 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all duration-300 placeholder-gray-400 text-gray-600 text-sm sm:text-base md:text-lg"
+              />
+            </div>
 
-        {/* Resource List */}
-        <div className="bg-white p-6 rounded-lg shadow-md">
-          <h2 className="text-xl font-semibold text-gray-700 mb-4">Uploaded Resources</h2>
-          {resources.length > 0 ? (
-            <ul className="space-y-4">
-              {resources.map((resource) => (
-                <li
-                  key={resource.id}
-                  className="flex justify-between items-center p-4 bg-blue-100 rounded-md"
-                >
-                  <span>
-                    <strong>{resource.title}</strong> - {resource.type} -{" "}
-                    <a href={resource.link} target="_blank" rel="noopener noreferrer" className="text-blue-700 underline">
-                      View Resource
-                    </a>
-                  </span>
-                  <button
-                    className="bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-700 transition duration-300"
-                    onClick={() => deleteResource(resource.id)}
-                  >
-                    Delete
-                  </button>
-                </li>
-              ))}
-            </ul>
-          ) : (
-            <p className="text-gray-600 text-center">No resources uploaded yet.</p>
-          )}
+            {/* Action Buttons */}
+            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+              <button
+                onClick={addResource}
+                className="w-full sm:w-auto bg-gradient-to-r from-blue-600 to-indigo-600 text-white font-semibold px-6 py-3 rounded-lg hover:from-blue-700 hover:to-indigo-700 transition-all duration-300 transform hover:scale-[1.02] shadow-md"
+              >
+                Upload Resource
+              </button>
+            </div>
+
+            {/* Resource List */}
+            <div className="mt-6 sm:mt-8">
+              {resources.length > 0 ? (
+                <div className="space-y-4 sm:space-y-6">
+                  {resources.map((resource) => (
+                    <div
+                      key={resource.id}
+                      className="bg-white p-4 sm:p-6 rounded-lg shadow-md transition-all duration-300 transform hover:scale-[1.02]"
+                    >
+                      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+                        <div className="flex-1">
+                          <span className="text-base sm:text-lg md:text-xl font-medium text-gray-700 truncate block">
+                            {resource.title}
+                          </span>
+                          <span className="text-gray-600 text-sm sm:text-base md:text-lg">
+                            {resource.type} -{" "}
+                            <a
+                              href={resource.link}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="text-blue-600 hover:underline"
+                            >
+                              View Resource
+                            </a>
+                          </span>
+                        </div>
+                        <button
+                          className="w-full sm:w-auto bg-gradient-to-r from-gray-600 to-gray-500 text-white font-semibold px-6 py-3 rounded-lg hover:from-gray-700 hover:to-gray-600 transition-all duration-300 transform hover:scale-[1.02] shadow-md"
+                          onClick={() => deleteResource(resource.id)}
+                        >
+                          Delete
+                        </button>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              ) : (
+                <p className="text-gray-600 text-sm sm:text-base md:text-lg text-center">
+                  No resources uploaded yet.
+                </p>
+              )}
+            </div>
+          </div>
         </div>
       </div>
       <Footer />
