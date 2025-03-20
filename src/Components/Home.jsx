@@ -1,6 +1,7 @@
 import React from "react";
 import AboutUs from "./About";
 import Footer from "./Footer";
+import Navbar from "./Navbar";
 import logo from '../assets/logo.jpg'
 import ll from '../assets/ll.jpg'
 import mm from '../assets/mm.jpg'
@@ -10,7 +11,7 @@ const Home = () => {
   return (
     <div className="bg-gray-100 text-center">
       
-
+ <Navbar/>
 {/* <section   id="Home"
   className="h-screen py-16 text-blue-200 bg-cover bg-center"  
   style={{   

@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import Navbar from "../../Components/Navbar";
 import { FaUsers, FaUserGraduate, FaChalkboardTeacher, FaBuilding, FaBriefcase, FaUserClock } from "react-icons/fa";
+import Sidebar from "./Sidebar";
 
 const Status = () => {
   const [userStats, setUserStats] = useState({
@@ -13,9 +14,9 @@ const Status = () => {
   });
 
   return (
-    <div className="bg-gray-100 min-h-screen">
-      <Navbar />
-      <div className="max-w-6xl mx-auto px-6 py-12">
+     <div className="bg-gray-100 min-h-screen">
+<Sidebar/>
+<div className="max-w-6xl mx-auto px-6 py-12">
         <h1 className="text-3xl font-bold text-blue-700 text-center mb-6">
           User Status & Statistics
         </h1>

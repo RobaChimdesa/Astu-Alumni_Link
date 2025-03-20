@@ -1,7 +1,7 @@
-
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import MoreStatus from "./moreStatus";
+import { FaSignOutAlt } from "react-icons/fa"; // Ensure this is imported
 import {
   FaUsers,
   FaBriefcase,
@@ -14,21 +14,19 @@ import {
   FaGraduationCap,
   FaChartPie,
 } from "react-icons/fa";
-import Navbar from "../../Components/Navbar";
-import Footer from "../../Components/Footer";
+import Sidebar from "./Sidebar";
+
 
 const AdminDashboard = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false); // Default to false for mobile
 
   return (
-    <div className="bg-gradient-to-b from-gray-50 to-blue-50 min-h-screen flex flex-col">
-      <Navbar />
-      <div className="flex flex-1">
+    <div className="bg-gradient-to-b from-gray-50 to-blue-50 min-h-screen flex flex-col gap-16">
+      <div className="flex flex-1 ">
         {/* Sidebar - Fixed at Left End */}
-        <div
-          className={`bg-white text-black w-64 space-y-12 px-4 py-6 fixed inset-y-0 left-0 z-50 transition-transform h-full ${
-            isSidebarOpen ? "translate-x-0" : "-translate-x-64"
-          } md:translate-x-0`}
+        {/* <div
+          className={`bg-white  text-black  w-72  ml-2   space-y-12 px-4 py-6 fixed inset-y-0 left-0 z-50 transition-transform h-full ${isSidebarOpen ? "translate-x-0" : "-translate-x-64"
+            } md:translate-x-0`}
         >
           <button
             className="absolute top-4 right-4 text-white md:hidden"
@@ -37,8 +35,8 @@ const AdminDashboard = () => {
             <FaTimes size={24} />
           </button>
           <h2 className="text-xl sm:text-2xl font-semibold text-blue-600 mb-4 animate-fade-in-down">
-                Quick Links
-              </h2>
+            Quick Links
+          </h2>
           <nav className="mt-10 space-y-4">
             <Link
               to="/admin/users"
@@ -88,11 +86,17 @@ const AdminDashboard = () => {
             >
               <FaUserCircle size={20} /> <span className="text-sm sm:text-base">Profile</span>
             </Link>
+            <Link
+              to="/logout"
+              className="block bg-gray-50 p-3 sm:p-4 rounded-lg shadow-md hover:shadow-lg hover:bg-gray-100 transition-all duration-300 flex items-center justify-between border-l-4 border-blue-500 transform hover:scale-[1.02]"
+            >
+              <FaSignOutAlt size={20} /> <span className="text-sm sm:text-base">Logout</span>
+            </Link>
           </nav>
-        </div>
-
+        </div> */}
+        <Sidebar/>
         {/* Main Content - Centered */}
-        <div className="flex-1 flex flex-col max-w-[90rem] mx-auto px-4 sm:px-6 py-8 sm:py-12 lg:py-16 w-full">
+        <div className="flex-1 flex flex-col max-w-[90rem] mx-auto px-4 sm:px-6 py-8 sm:py-12 lg:py-16 w-full mr-0">
           {/* Dashboard Header */}
           <div className="bg-white shadow-md p-4 sm:p-6 flex justify-between items-center max-w-5xl mx-auto w-full rounded-xl">
             <button
@@ -120,7 +124,7 @@ const AdminDashboard = () => {
           </div>
         </div>
       </div>
-      <Footer />
+      {/* <Footer /> */}
     </div>
   );
 };

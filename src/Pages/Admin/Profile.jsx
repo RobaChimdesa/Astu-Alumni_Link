@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import Navbar from "../../Components/Navbar";
+import Sidebar from "./Sidebar";
 
 const Profile = () => {
   const [adminData, setAdminData] = useState({
@@ -28,7 +29,7 @@ const Profile = () => {
 
   return (
     <div className="bg-gray-100 min-h-screen">
-      <Navbar />
+      <Sidebar />
       <div className="max-w-4xl mx-auto px-6 py-12">
         <h1 className="text-3xl font-bold text-blue-700 text-center mb-6">Admin Profile</h1>
 

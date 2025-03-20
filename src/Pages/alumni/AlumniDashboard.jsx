@@ -4,17 +4,17 @@ import Navbar from "../../Components/Navbar";
 import Footer from "../../Components/Footer";
 
 const AlumniDashboard = () => {
-  const [isSidebarOpen, setIsSidebarOpen] = useState(true); // Sidebar closed by default on mobile
+  const [isSidebarOpen, setIsSidebarOpen] = useState(true); // Sidebar open by default
 
   return (
-    <div className="bg-gradient-to-b from-gray-50 to-blue-50 min-h-screen flex flex-col">
+    <div className="bg-gradient-to-br from-gray-50 via-blue-50 to-indigo-100 min-h-screen flex flex-col">
       <Navbar />
-
-      <div className="flex flex-1 max-w-7xl mx-auto px-4 sm:px-6 py-8 sm:py-12 lg:py-16">
-        {/* Sidebar (Left Column) */}
+      <div className="flex flex-1">
+        {/* Sidebar (Fixed at Left End) */}
         <aside
-          className={`bg-white rounded-xl shadow-xl p-4 sm:p-6 transition-all duration-300 fixed md:static top-16 left-0 h-auto md:h-auto z-20 ${isSidebarOpen ? "w-64" : "w-16"
-            } md:w-1/4 lg:w-1/5`}
+          className={`bg-white rounded-r-xl shadow-xl p-4 sm:p-6 transition-all duration-300 fixed top-16 left-0 h-[calc(100vh-4rem)] z-20 ${
+            isSidebarOpen ? "w-64" : "w-16"
+          }`}
         >
           {/* Sidebar Toggle Button */}
           <button
@@ -33,7 +33,6 @@ const AlumniDashboard = () => {
               </h2>
               {[
                 { to: "/alumni/jobs", text: "Job Listings", emoji: "💼" },
-                // { to: "/alumni/mentorship", text: "Mentorship Requests", emoji: "👩‍🏫" },
                 { to: "/alumni/resources", text: "Upload Resources", emoji: "📚" },
                 { to: "/alumni/discussions", text: "Discussion Forum", emoji: "💬" },
                 { to: "/alumni/events", text: "Events", emoji: "📅" },
@@ -57,10 +56,10 @@ const AlumniDashboard = () => {
           )}
         </aside>
 
-        {/* Main Content Area (Right Side) */}
-        <main className="flex-1 md:ml-0 lg:ml-6 space-y-6 w-full mt-16 md:mt-0">
+        {/* Main Content (Centered) */}
+        <main className="flex-1 max-w-[90rem] mx-auto px-4 sm:px-6 py-8 sm:py-12 lg:py-16 w-full ml-0 md:ml-16 lg:ml-64">
           {/* Dashboard Header */}
-          <h1 className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-center text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-indigo-600 mb-6 sm:mb-8 animate-fade-in-down">
+          <h1 className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-center text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-indigo-600 mb-6 sm:mb-8 tracking-tight animate-fade-in-down">
             Alumni Dashboard
           </h1>
 
@@ -83,10 +82,12 @@ const AlumniDashboard = () => {
           </div>
 
           {/* Main Content Sections */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6 mt-6 sm:mt-8">
             {/* Recent Activity */}
-            <div className="bg-white p-4 sm:p-6 rounded-xl shadow-lg">
-              <h3 className="text-lg sm:text-xl font-semibold text-blue-600 mb-3 sm:mb-4">Recent Activity</h3>
+            <div className="bg-white p-4 sm:p-6 rounded-xl shadow-xl bg-gradient-to-br from-white to-blue-50 border border-blue-100">
+              <h3 className="text-lg sm:text-xl font-semibold text-blue-600 mb-3 sm:mb-4">
+                Recent Activity
+              </h3>
               <ul className="space-y-2 sm:space-y-3">
                 {[
                   "Posted a job: Software Engineer - 2 days ago",
@@ -102,8 +103,10 @@ const AlumniDashboard = () => {
             </div>
 
             {/* Upcoming Events */}
-            <div className="bg-white p-4 sm:p-6 rounded-xl shadow-lg">
-              <h3 className="text-lg sm:text-xl font-semibold text-blue-600 mb-3 sm:mb-4">Upcoming Events</h3>
+            <div className="bg-white p-4 sm:p-6 rounded-xl shadow-xl bg-gradient-to-br from-white to-blue-50 border border-blue-100">
+              <h3 className="text-lg sm:text-xl font-semibold text-blue-600 mb-3 sm:mb-4">
+                Upcoming Events
+              </h3>
               <ul className="space-y-2 sm:space-y-3">
                 {[
                   { name: "Alumni Networking Night", date: "Mar 15, 2025" },
@@ -132,7 +135,6 @@ const AlumniDashboard = () => {
           </div>
         </main>
       </div>
-
       <Footer />
     </div>
   );

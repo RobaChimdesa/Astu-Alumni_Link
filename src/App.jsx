@@ -52,7 +52,7 @@ const App = ()=>{
   return (
     <Router>
       <div className="flex flex-col min-h-screen">
-        <Navbar />
+        {/* <Navbar /> */}
         <div className="flex-grow">
           <Routes>
             <Route path="/" element={<Home />} />
@@ -106,6 +106,7 @@ const App = ()=>{
         </div>
       </div>
     </Router>
+
   );
 };
 

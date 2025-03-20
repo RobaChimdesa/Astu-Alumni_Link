@@ -2,18 +2,18 @@ import React, { useState } from "react";
 import Navbar from "../../Components/Navbar";
 import Footer from "../../Components/Footer";
 import { FaCheck, FaTrash } from "react-icons/fa";
-
+import Sidebar from "./Sidebar";
 const ManageResources = () => {
   const [resources, setResources] = useState([
     { id: 1, title: "Data Science Handbook", uploader: "Dr. Sarah Johnson", status: "Pending" },
     { id: 2, title: "Web Development Guide", uploader: "Alex Brown", status: "Approved" },
     { id: 3, title: "Machine Learning Basics", uploader: "Jane Smith", status: "Pending" },
-    { id: 1, title: "Data Science Handbook", uploader: "Dr. Sarah Johnson", status: "Pending" },
-    { id: 2, title: "Web Development Guide", uploader: "Alex Brown", status: "Approved" },
-    { id: 3, title: "Machine Learning Basics", uploader: "Jane Smith", status: "Pending" },
-    { id: 1, title: "Data Science Handbook", uploader: "Dr. Sarah Johnson", status: "Pending" },
-    { id: 2, title: "Web Development Guide", uploader: "Alex Brown", status: "Approved" },
-    { id: 3, title: "Machine Learning Basics", uploader: "Jane Smith", status: "Pending" },
+    { id: 4, title: "Data Science Handbook", uploader: "Dr. Sarah Johnson", status: "Pending" },
+    { id: 5, title: "Web Development Guide", uploader: "Alex Brown", status: "Approved" },
+    { id: 6, title: "Machine Learning Basics", uploader: "Jane Smith", status: "Pending" },
+    { id: 7, title: "Data Science Handbook", uploader: "Dr. Sarah Johnson", status: "Pending" },
+    { id: 8, title: "Web Development Guide", uploader: "Alex Brown", status: "Approved" },
+    { id: 9, title: "Machine Learning Basics", uploader: "Jane Smith", status: "Pending" },
   ]);
 
   const approveResource = (id) => {
@@ -26,7 +26,7 @@ const ManageResources = () => {
 
   return (
     <div className="bg-gradient-to-br from-gray-50 via-blue-50 to-indigo-100 min-h-screen flex flex-col">
-      <Navbar />
+      <Sidebar/>
       <div className="flex-1 max-w-[90rem] mx-auto px-4 sm:px-6 py-8 sm:py-12 lg:py-16">
         {/* Title */}
         <h1 className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-center text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-indigo-600 mb-6 sm:mb-8 tracking-tight animate-fade-in-down">
@@ -110,7 +110,7 @@ const ManageResources = () => {
           )}
         </div>
       </div>
-      <Footer />
+      {/* <Footer /> */}
     </div>
   );
 };
