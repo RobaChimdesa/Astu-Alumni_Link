@@ -1,65 +1,21 @@
-
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import Navbar from "../../Components/Navbar";
 import Footer from "../../Components/Footer";
+import Sidebar from "./Sidebar";
 
 const CompanyDashboard = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(true); // Sidebar closed by default on mobile
 
-  const dashboardItems = [
-    { to: "/company/profile", text: "Company Profile", emoji: "🏢" },
-    { to: "/company/post-job", text: "Post Job Listing", emoji: "📢" },
-    { to: "/company/view-applications", text: "View Applications", emoji: "📄" },
-    { to: "/company/internships", text: "Post Internships", emoji: "🎓" },
-    { to: "/company/notifications", text: "Notifications", emoji: "🔔" },
-    { to: "/company/event", text: "Event", emoji: "📅" },
-  ];
+  
 
   return (
     <div className="bg-gradient-to-b from-gray-50 to-blue-50 min-h-screen flex flex-col">
-      <Navbar />
-
+      {/* <Navbar /> */}
+      <Sidebar/>
       <div className="flex flex-1 max-w-7xl mx-auto px-4 sm:px-6 py-8 sm:py-12 lg:py-16">
         {/* Sidebar (Left Column) */}
-        <aside
-          className={`bg-white rounded-xl shadow-xl p-4 sm:p-6 transition-all duration-300 fixed md:static top-16 left-0 h-auto md:h-auto z-20 ${
-            isSidebarOpen ? "w-64" : "w-16"
-          } md:w-1/4 lg:w-1/5`}
-        >
-          {/* Sidebar Toggle Button */}
-          <button
-            onClick={() => setIsSidebarOpen(!isSidebarOpen)}
-            className="w-full flex justify-end text-blue-600 hover:text-blue-800 transition-colors duration-300 mb-4"
-            aria-label={isSidebarOpen ? "Collapse sidebar" : "Expand sidebar"}
-          >
-            <span className="text-2xl">{isSidebarOpen ? "✖" : "☰"}</span>
-          </button>
-
-          {/* Sidebar Content */}
-          {isSidebarOpen && (
-            <div className="space-y-3 animate-fade-in">
-              <h2 className="text-xl sm:text-2xl font-semibold text-blue-600 mb-4 animate-fade-in-down">
-                Quick Links
-              </h2>
-              {dashboardItems.map((item, index) => (
-                <Link
-                  key={index}
-                  to={item.to}
-                  className="block bg-gray-50 p-3 sm:p-4 rounded-lg shadow-md hover:shadow-lg hover:bg-gray-100 transition-all duration-300 flex items-center justify-between border-l-4 border-blue-500 transform hover:scale-[1.02]"
-                  onClick={() => setIsSidebarOpen(false)} // Close sidebar on link click (mobile)
-                >
-                  <div className="flex items-center space-x-2 sm:space-x-3">
-                    <span className="text-lg sm:text-xl">{item.emoji}</span>
-                    <span className="text-sm sm:text-md font-semibold text-gray-800">{item.text}</span>
-                  </div>
-                  <span className="text-blue-600 font-bold text-md sm:text-lg">→</span>
-                </Link>
-              ))}
-            </div>
-          )}
-        </aside>
-
+        
         {/* Main Content Area (Right Side) */}
         <main className="flex-1 md:ml-0 lg:ml-6 space-y-6 w-full mt-16 md:mt-0">
           {/* Dashboard Header */}
@@ -140,7 +96,7 @@ const CompanyDashboard = () => {
         </main>
       </div>
 
-      <Footer />
+      {/* <Footer /> */}
     </div>
   );
 };

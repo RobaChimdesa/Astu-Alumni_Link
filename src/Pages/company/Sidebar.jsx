@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import { FaTachometerAlt, FaBriefcase, FaBook, FaComments, FaCalendarAlt, FaBell, FaUserCircle, FaSignOutAlt, FaTimes } from "react-icons/fa";
+import { FaTachometerAlt, FaBuilding, FaBullhorn, FaFileAlt, FaGraduationCap, FaBell, FaCalendarAlt, FaSignOutAlt, FaTimes } from "react-icons/fa";
 
 const Sidebar = ({ isOpen = false, toggleSidebar }) => {
     const [isSidebarOpen, setIsSidebarOpen] = useState(isOpen); // Use prop or default to false
@@ -32,53 +32,53 @@ const Sidebar = ({ isOpen = false, toggleSidebar }) => {
             {/* Navigation Links */}
             <nav className="mt-10 space-y-4">
                 <Link
-                    to="/dashboard-alumni"
+                    to="/dashboard-company"
                     className="block bg-gray-50 p-3 sm:p-4 rounded-lg shadow-md hover:shadow-lg hover:bg-gray-100 transition-all duration-300 flex items-center justify-between border-l-4 border-blue-500 transform hover:scale-[1.02]"
                     onClick={() => setIsSidebarOpen(false)}
                 >
                     <FaTachometerAlt size={20} /> <span className="text-sm sm:text-base">Dashboard</span>
                 </Link>
                 <Link
-                    to="/alumni/jobs"
+                    to="/company/profile"
                     className="block bg-gray-50 p-3 sm:p-4 rounded-lg shadow-md hover:shadow-lg hover:bg-gray-100 transition-all duration-300 flex items-center justify-between border-l-4 border-blue-500 transform hover:scale-[1.02]"
                     onClick={() => setIsSidebarOpen(false)}
                 >
-                    <FaBriefcase size={20} /> <span className="text-sm sm:text-base">Job Listings</span>
+                    <FaBuilding size={20} /> <span className="text-sm sm:text-base">Company Profile</span>
                 </Link>
                 <Link
-                    to="/alumni/resources"
+                    to="/company/post-job"
                     className="block bg-gray-50 p-3 sm:p-4 rounded-lg shadow-md hover:shadow-lg hover:bg-gray-100 transition-all duration-300 flex items-center justify-between border-l-4 border-blue-500 transform hover:scale-[1.02]"
                     onClick={() => setIsSidebarOpen(false)}
                 >
-                    <FaBook size={20} /> <span className="text-sm sm:text-base">Upload Resources</span>
+                    <FaBullhorn size={20} /> <span className="text-sm sm:text-base">Post Job Listing</span>
                 </Link>
                 <Link
-                    to="/alumni/discussions"
+                    to="/company/view-applications"
                     className="block bg-gray-50 p-3 sm:p-4 rounded-lg shadow-md hover:shadow-lg hover:bg-gray-100 transition-all duration-300 flex items-center justify-between border-l-4 border-blue-500 transform hover:scale-[1.02]"
                     onClick={() => setIsSidebarOpen(false)}
                 >
-                    <FaComments size={20} /> <span className="text-sm sm:text-base">Discussion Forum</span>
+                    <FaFileAlt size={20} /> <span className="text-sm sm:text-base">View Applications</span>
                 </Link>
                 <Link
-                    to="/alumni/events"
+                    to="/company/internships"
                     className="block bg-gray-50 p-3 sm:p-4 rounded-lg shadow-md hover:shadow-lg hover:bg-gray-100 transition-all duration-300 flex items-center justify-between border-l-4 border-blue-500 transform hover:scale-[1.02]"
                     onClick={() => setIsSidebarOpen(false)}
                 >
-                    <FaCalendarAlt size={20} /> <span className="text-sm sm:text-base">Events</span>
+                    <FaGraduationCap size={20} /> <span className="text-sm sm:text-base">Post Internships</span>
                 </Link>
                 <Link
-                    to="/alumni/notifications"
+                    to="/company/notifications"
                     className="block bg-gray-50 p-3 sm:p-4 rounded-lg shadow-md hover:shadow-lg hover:bg-gray-100 transition-all duration-300 flex items-center justify-between border-l-4 border-blue-500 transform hover:scale-[1.02]"
                     onClick={() => setIsSidebarOpen(false)}
                 >
                     <FaBell size={20} /> <span className="text-sm sm:text-base">Notifications</span>
                 </Link>
                 <Link
-                    to="/alumni/profile"
+                    to="/company/event"
                     className="block bg-gray-50 p-3 sm:p-4 rounded-lg shadow-md hover:shadow-lg hover:bg-gray-100 transition-all duration-300 flex items-center justify-between border-l-4 border-blue-500 transform hover:scale-[1.02]"
                     onClick={() => setIsSidebarOpen(false)}
                 >
-                    <FaUserCircle size={20} /> <span className="text-sm sm:text-base">Profile</span>
+                    <FaCalendarAlt size={20} /> <span className="text-sm sm:text-base">Event</span>
                 </Link>
                 <Link
                     to="/"

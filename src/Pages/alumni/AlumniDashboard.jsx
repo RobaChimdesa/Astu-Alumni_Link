@@ -2,62 +2,22 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import Navbar from "../../Components/Navbar";
 import Footer from "../../Components/Footer";
+import Sidebar from "./Sidebar";
 
 const AlumniDashboard = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(true); // Sidebar open by default
 
   return (
     <div className="bg-gradient-to-br from-gray-50 via-blue-50 to-indigo-100 min-h-screen flex flex-col">
-      <Navbar />
-      <div className="flex flex-1">
+      {/* <Navbar /> */}
+      <Sidebar/>
+      <div className="flex flex-1 ml-20">
         {/* Sidebar (Fixed at Left End) */}
-        <aside
-          className={`bg-white rounded-r-xl shadow-xl p-4 sm:p-6 transition-all duration-300 fixed top-16 left-0 h-[calc(100vh-4rem)] z-20 ${
-            isSidebarOpen ? "w-64" : "w-16"
-          }`}
-        >
-          {/* Sidebar Toggle Button */}
-          <button
-            onClick={() => setIsSidebarOpen(!isSidebarOpen)}
-            className="w-full flex justify-end text-blue-600 hover:text-blue-800 transition-colors duration-300 mb-4"
-            aria-label={isSidebarOpen ? "Collapse sidebar" : "Expand sidebar"}
-          >
-            <span className="text-2xl">{isSidebarOpen ? "✖" : "☰"}</span>
-          </button>
-
-          {/* Sidebar Content */}
-          {isSidebarOpen && (
-            <div className="space-y-3 animate-fade-in">
-              <h2 className="text-xl sm:text-2xl font-semibold text-blue-600 mb-4 animate-fade-in-down">
-                Quick Links
-              </h2>
-              {[
-                { to: "/alumni/jobs", text: "Job Listings", emoji: "💼" },
-                { to: "/alumni/resources", text: "Upload Resources", emoji: "📚" },
-                { to: "/alumni/discussions", text: "Discussion Forum", emoji: "💬" },
-                { to: "/alumni/events", text: "Events", emoji: "📅" },
-                { to: "/alumni/notifications", text: "Notifications", emoji: "🔔" },
-                { to: "/alumni/profile", text: "Profile", emoji: "👤" },
-              ].map((link, index) => (
-                <Link
-                  key={index}
-                  to={link.to}
-                  className="block bg-gray-50 p-3 sm:p-4 rounded-lg shadow-md hover:shadow-lg hover:bg-gray-100 transition-all duration-300 flex items-center justify-between border-l-4 border-blue-500 transform hover:scale-[1.02]"
-                  onClick={() => setIsSidebarOpen(false)} // Close sidebar on link click (mobile)
-                >
-                  <div className="flex items-center space-x-2 sm:space-x-3">
-                    <span className="text-lg sm:text-xl">{link.emoji}</span>
-                    <span className="text-sm sm:text-md font-semibold text-gray-800">{link.text}</span>
-                  </div>
-                  <span className="text-blue-600 font-bold text-md sm:text-lg">→</span>
-                </Link>
-              ))}
-            </div>
-          )}
-        </aside>
+       
+          
 
         {/* Main Content (Centered) */}
-        <main className="flex-1 max-w-[90rem] mx-auto px-4 sm:px-6 py-8 sm:py-12 lg:py-16 w-full ml-0 md:ml-16 lg:ml-64">
+        <main className="flex-1 max-w-[80rem] mx-auto px-4 sm:px-6 py-8 sm:py-12 lg:py-16 w-full ml-0 md:ml-16 lg:ml-64">
           {/* Dashboard Header */}
           <h1 className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-center text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-indigo-600 mb-6 sm:mb-8 tracking-tight animate-fade-in-down">
             Alumni Dashboard
@@ -135,7 +95,7 @@ const AlumniDashboard = () => {
           </div>
         </main>
       </div>
-      <Footer />
+      {/* <Footer /> */}
     </div>
   );
 };

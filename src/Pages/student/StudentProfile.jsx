@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import Navbar from "../../Components/Navbar";
 import Footer from "../../Components/Footer";
+import Sidebar from "./Sidebar";
 
 const StudentProfile = () => {
   // Sample student data with a placeholder image
@@ -37,7 +38,8 @@ const StudentProfile = () => {
 
   return (
     <div className="bg-gradient-to-b from-gray-50 to-blue-50 min-h-screen flex flex-col">
-      <Navbar />
+      {/* <Navbar /> */}
+      <Sidebar/>
       <div className="flex-1 max-w-7xl mx-auto px-4 sm:px-6 py-8 sm:py-12 lg:py-16">
         {/* Title */}
         <h1 className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-center text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-indigo-600 mb-6 sm:mb-8 animate-fade-in-down">
@@ -170,7 +172,7 @@ const StudentProfile = () => {
           </div>
         </div>
       </div>
-      <Footer />
+      {/* <Footer /> */}
     </div>
   );
 };

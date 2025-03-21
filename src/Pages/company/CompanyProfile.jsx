@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import Navbar from "../../Components/Navbar";
 import Footer from "../../Components/Footer";
-
+import Sidebar from "./Sidebar";
 const CompanyProfile = () => {
   const [isEditing, setIsEditing] = useState(false);
   const [companyData, setCompanyData] = useState({
@@ -26,7 +26,8 @@ const CompanyProfile = () => {
 
   return (
     <div className="bg-gray-100 min-h-screen">
-      <Navbar />
+      {/* <Navbar /> */}
+      <Sidebar/>
       <div className="max-w-4xl mx-auto px-6 py-12">
         <h1 className="text-3xl font-bold text-blue-700 text-center mb-6">
           Company Profile
@@ -125,7 +126,7 @@ const CompanyProfile = () => {
           )}
         </div>
       </div>
-      <Footer />
+      {/* <Footer /> */}
     </div>
   );
 };

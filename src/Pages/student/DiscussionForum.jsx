@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import Navbar from "../../Components/Navbar";
 import Footer from "../../Components/Footer";
 import { Link } from "react-router-dom";
+import Sidebar from "./Sidebar";
 
 const discussionsData = [
     { id: 1, title: "How to Network Effectively?", author: "Dr. Sarah Johnson", date: "March 1, 2024" },
@@ -28,7 +29,8 @@ const DiscussionForum = () => {
 
     return (
         <div className="bg-gradient-to-b from-gray-50 to-blue-50 min-h-screen flex flex-col">
-            <Navbar />
+            {/* <Navbar /> */}
+            <Sidebar/>
             <div className="flex-1 max-w-7xl mx-auto px-4 sm:px-6 py-8 sm:py-12 lg:py-16">
                 {/* Title */}
                 <h1 className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-center text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-indigo-600 mb-6 sm:mb-8 animate-fade-in-down">
@@ -47,7 +49,7 @@ const DiscussionForum = () => {
                 </div>
 
                 {/* Discussion Topics */}
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 ml-24">
                     {filteredDiscussions.length > 0 ? (
                         filteredDiscussions.map((discussion) => (
                             <div
@@ -76,7 +78,7 @@ const DiscussionForum = () => {
                     )}
                 </div>
             </div>
-            <Footer />
+            {/* <Footer /> */}
         </div>
     );
 };

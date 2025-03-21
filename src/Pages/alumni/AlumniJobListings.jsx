@@ -1,87 +1,4 @@
-// import React, { useState } from "react";
-// import Navbar from "../../Components/Navbar";
-// import Footer from "../../Components/Footer";
-
-// const jobListings = [
-//   { id: 1, title: "Software Engineer", company: "TechCorp", location: "Addis Ababa", deadline: "March 30, 2024" },
-//   { id: 2, title: "Marketing Manager", company: "Adama Marketing Ltd", location: "Adama", deadline: "April 10, 2024" },
-//   { id: 3, title: "Mechanical Engineer", company: "Hawassa Engineering", location: "Hawassa", deadline: "April 20, 2024" },
-// ];
-
-// const AlumniJobListings = () => {
-//   const [searchTerm, setSearchTerm] = useState("");
-//   const [appliedJobs, setAppliedJobs] = useState([]);
-
-//   const handleSearch = (e) => {
-//     setSearchTerm(e.target.value.toLowerCase());
-//   };
-
-//   const handleApply = (jobId) => {
-//     if (!appliedJobs.includes(jobId)) {
-//       setAppliedJobs([...appliedJobs, jobId]);
-//       alert("You have successfully applied for this job!");
-//     } else {
-//       alert("You have already applied for this job.");
-//     }
-//   };
-
-//   const filteredJobs = jobListings.filter(
-//     (job) =>
-//       job.title.toLowerCase().includes(searchTerm) ||
-//       job.company.toLowerCase().includes(searchTerm) ||
-//       job.location.toLowerCase().includes(searchTerm)
-//   );
-
-//   return (
-//     <div className="bg-gray-100 min-h-screen">
-//       <Navbar />
-//       <div className="max-w-6xl mx-auto px-6 py-12">
-//         <h1 className="text-3xl font-bold text-blue-700 text-center mb-6">Job Listings</h1>
-
-//         {/* Search Bar */}
-//         <div className="mb-6">
-//           <input
-//             type="text"
-//             placeholder="Search by title, company, or location..."
-//             value={searchTerm}
-//             onChange={handleSearch}
-//             className="w-full p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500"
-//           />
-//         </div>
-
-//         {/* Job Listings */}
-//         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-//           {filteredJobs.length > 0 ? (
-//             filteredJobs.map((job) => (
-//               <div key={job.id} className="bg-white p-6 rounded-lg shadow-md">
-//                 <h3 className="text-xl font-semibold text-gray-800">{job.title}</h3>
-//                 <p className="text-gray-600">Company: {job.company}</p>
-//                 <p className="text-gray-600">Location: {job.location}</p>
-//                 <p className="text-gray-700 font-semibold">Deadline: {job.deadline}</p>
-//                 <button
-//                   className={`mt-4 px-4 py-2 rounded-lg text-white transition duration-300 ${
-//                     appliedJobs.includes(job.id)
-//                       ? "bg-gray-500 cursor-not-allowed"
-//                       : "bg-blue-600 hover:bg-blue-700"
-//                   }`}
-//                   onClick={() => handleApply(job.id)}
-//                   disabled={appliedJobs.includes(job.id)}
-//                 >
-//                   {appliedJobs.includes(job.id) ? "Applied" : "Apply Now"}
-//                 </button>
-//               </div>
-//             ))
-//           ) : (
-//             <p className="text-gray-600 text-center col-span-full">No jobs found.</p>
-//           )}
-//         </div>
-//       </div>
-//       <Footer />
-//     </div>
-//   );
-// };
-
-// export default AlumniJobListings;
+import Sidebar from "./Sidebar";
 import React, { useState } from "react";
 import Navbar from "../../Components/Navbar";
 import Footer from "../../Components/Footer";
@@ -123,7 +40,8 @@ const AlumniJobListings = () => {
 
   return (
     <div className="bg-gradient-to-b from-gray-50 to-blue-50 min-h-screen flex flex-col">
-      <Navbar />
+      {/* <Navbar /> */}
+      <Sidebar/>
       <div className="flex-1 max-w-7xl mx-auto px-4 sm:px-6 py-8 sm:py-12 lg:py-16">
         {/* Title */}
         <h1 className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-center text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-indigo-600 mb-6 sm:mb-8 animate-fade-in-down">
@@ -182,7 +100,7 @@ const AlumniJobListings = () => {
           )}
         </div>
       </div>
-      <Footer />
+      {/* <Footer /> */}
     </div>
   );
 };
