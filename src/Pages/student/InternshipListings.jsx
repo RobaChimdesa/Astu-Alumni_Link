@@ -37,7 +37,7 @@ const InternshipListings = () => {
         </h1>
 
         {/* Search Bar */}
-        <div className="mb-6 sm:mb-8 max-w-lg mx-auto">
+        <div className="mb-6 sm:mb-8 max-w-lg mx-auto ml-12">
           <input
             type="text"
             placeholder="Search by title, company, or location..."
@@ -48,7 +48,7 @@ const InternshipListings = () => {
         </div>
 
         {/* Internship Listings */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 ml-24">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 ml-9 md:ml-24">
           {filteredInternships.length > 0 ? (
             filteredInternships.map((internship) => (
               <div

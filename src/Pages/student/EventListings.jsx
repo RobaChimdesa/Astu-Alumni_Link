@@ -38,7 +38,7 @@ const EventListings = () => {
                 </h1>
 
                 {/* Search Bar */}
-                <div className="mb-6 sm:mb-8 max-w-lg mx-auto">
+                <div className="mb-6 sm:mb-8 max-w-lg mx-auto ml-12">
                     <input
                         type="text"
                         placeholder="Search by event name, organizer, or location..."
@@ -49,7 +49,7 @@ const EventListings = () => {
                 </div>
 
                 {/* Event Listings */}
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 ml-24">
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 ml-16 ml-9 md:ml-24">
                     {filteredEvents.length > 0 ? (
                         filteredEvents.map((event) => (
                             <div

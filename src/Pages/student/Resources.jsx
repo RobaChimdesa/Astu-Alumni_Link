@@ -38,7 +38,7 @@ const Resources = () => {
                 </h1>
 
                 {/* Search Bar */}
-                <div className="mb-6 sm:mb-8 max-w-lg mx-auto">
+                <div className="mb-6 sm:mb-8 max-w-lg mx-auto ml:16">
                     <input
                         type="text"
                         placeholder="Search by title, category, or uploader..."
@@ -49,7 +49,7 @@ const Resources = () => {
                 </div>
 
                 {/* Resource Listings */}
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 ml-24">
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 sm:ml-16 md:ml-24">
                     {filteredResources.length > 0 ? (
                         filteredResources.map((resource) => (
                             <div

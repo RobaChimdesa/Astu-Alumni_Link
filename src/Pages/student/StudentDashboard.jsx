@@ -9,11 +9,11 @@ const StudentDashboard = () => {
   return (
     <div className="bg-gradient-to-b from-gray-50 to-blue-50 min-h-screen flex flex-col">
       {/* <Navbar /> */}
-      <Sidebar/>
+      <Sidebar />
 
-      <div className="flex flex-1 max-w-7xl mx-auto px-4 sm:px-6 py-8 sm:py-12 lg:py-16">
+      <div className="flex flex-1 max-w-7xl mx-auto px-4 sm:px-6 py-8 sm:py-12 lg:py-16 ">
         {/* Sidebar (Left Column) */}
-        
+
 
         {/* Main Content Area (Right Side) */}
         <main className="flex-1 md:ml-0 lg:ml-6 space-y-6 w-full mt-16 md:mt-0">
@@ -41,7 +41,7 @@ const StudentDashboard = () => {
           </div>
 
           {/* Main Content Sections */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6 ">
             {/* Recent Activity */}
             <div className="bg-white p-4 sm:p-6 rounded-xl shadow-lg">
               <h3 className="text-lg sm:text-xl font-semibold text-blue-600 mb-3 sm:mb-4">Recent Activity</h3>

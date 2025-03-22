@@ -93,7 +93,7 @@ const Sidebar = ({ isOpen = false, toggleSidebar }) => {
                     <FaSignOutAlt size={20} /> <span className="text-sm sm:text-base">Logout</span>
                 </Link>
             </nav>
-            <Footer/>
+            {/* <Footer/> */}
         </div>
     );
 };

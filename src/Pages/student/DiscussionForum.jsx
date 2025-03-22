@@ -38,7 +38,7 @@ const DiscussionForum = () => {
                 </h1>
 
                 {/* Search Bar */}
-                <div className="mb-6 sm:mb-8 max-w-lg mx-auto">
+                <div className="mb-6 sm:mb-8 max-w-lg mx-auto ml-16">
                     <input
                         type="text"
                         placeholder="Search by title or author..."
@@ -49,7 +49,7 @@ const DiscussionForum = () => {
                 </div>
 
                 {/* Discussion Topics */}
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 ml-24">
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6  ml-24 ">
                     {filteredDiscussions.length > 0 ? (
                         filteredDiscussions.map((discussion) => (
                             <div
