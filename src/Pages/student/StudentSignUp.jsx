@@ -225,276 +225,24 @@
 
 
 
-
-
-// import React, { useState } from "react";
-// import Footer from "../../Components/Footer";
-
-// const StudentSignUp = () => {
-//   const [formData, setFormData] = useState({
-//     fullName: "",
-//     email: "",
-//     studentId: "",
-//     phoneNumber: "",
-//     admissionYear: "",
-//     graduationYear: "",
-//     department: "",
-//     password: "",
-//     confirmPassword: "",
-//   });
-
-//   const [error, setError] = useState("");
-//   const [message, setMessage] = useState("");
-//   const [isVerifying, setIsVerifying] = useState(false);
-//   const [isSubmitting, setIsSubmitting] = useState(false);
-
-//   // Handle input changes
-//   const handleChange = (e) => {
-//     setFormData({ ...formData, [e.target.name]: e.target.value });
-//   };
-
-//   // Verify Student Before Registration
-//   const verifyStudent = async () => {
-//     setIsVerifying(true);
-//     setError("");
-//     setMessage("");
-
-//     try {
-//       const response = await fetch("http://127.0.0.1:8000/api/verify-student/", {
-//         method: "POST",
-//         headers: { "Content-Type": "application/json" },
-//         body: JSON.stringify({
-//           email: formData.email,
-//           student_id: formData.studentId,
-//         }),
-//       });
-
-//       const data = await response.json();
-//       if (response.ok) {
-//         setMessage("Student verification successful! You can proceed.");
-//         return true;
-//       } else {
-//         setError(data.message || "Verification failed. Please check your details.");
-//         return false;
-//       }
-//     } catch (error) {
-//       setError("Server error. Please try again later.");
-//       return false;
-//     } finally {
-//       setIsVerifying(false);
-//     }
-//   };
-
-//   // Handle Registration Form Submission
-//   const handleSubmit = async (e) => {
-//     e.preventDefault();
-//     setError("");
-//     setMessage("");
-
-//     if (formData.password !== formData.confirmPassword) {
-//       setError("Passwords do not match!");
-//       return;
-//     }
-
-//     const isVerified = await verifyStudent();
-//     if (!isVerified) return;
-
-//     setIsSubmitting(true);
-//     try {
-//       const response = await fetch("http://127.0.0.1:8000/api/register-student/", {
-//         method: "POST",
-//         headers: { "Content-Type": "application/json" },
-//         body: JSON.stringify(formData),
-//       });
-
-//       const data = await response.json();
-//       if (response.ok) {
-//         setMessage("Registration successful! You can now log in.");
-//         setFormData({
-//           fullName: "",
-//           email: "",
-//           studentId: "",
-//           phoneNumber: "",
-//           admissionYear: "",
-//           graduationYear: "",
-//           department: "",
-//           password: "",
-//           confirmPassword: "",
-//         });
-//       } else {
-//         setError(data.message || "Registration failed. Please try again.");
-//       }
-//     } catch (error) {
-//       setError("Server error. Please try again later.");
-//     } finally {
-//       setIsSubmitting(false);
-//     }
-//   };
-
-//   return (
-//     <div className="min-h-screen flex flex-col justify-between bg-gradient-to-b from-gray-50 to-blue-50">
-//       <div className="flex flex-col items-center justify-center flex-grow p-6">
-//         <h1 className="text-4xl md:text-5xl font-extrabold text-center text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-indigo-600 mb-8">
-//           Student Sign Up
-//         </h1>
-
-//         <form onSubmit={handleSubmit} className="w-full max-w-lg bg-white p-8 rounded-xl shadow-xl space-y-6">
-//           {/* Full Name */}
-//           <div>
-//             <label className="block text-gray-700 font-medium mb-2">Full Name</label>
-//             <input
-//               type="text"
-//               name="fullName"
-//               placeholder="Enter your full name"
-//               required
-//               className="w-full p-4 border rounded-lg focus:ring-2 focus:ring-blue-500"
-//               onChange={handleChange}
-//             />
-//           </div>
-
-//           {/* Email */}
-//           <div>
-//             <label className="block text-gray-700 font-medium mb-2">Campus Email</label>
-//             <input
-//               type="email"
-//               name="email"
-//               placeholder="Enter your campus email"
-//               required
-//               className="w-full p-4 border rounded-lg focus:ring-2 focus:ring-blue-500"
-//               onChange={handleChange}
-//             />
-//           </div>
-
-//           {/* Student ID */}
-//           <div>
-//             <label className="block text-gray-700 font-medium mb-2">Student ID</label>
-//             <input
-//               type="text"
-//               name="studentId"
-//               placeholder="Enter your student ID"
-//               required
-//               className="w-full p-4 border rounded-lg focus:ring-2 focus:ring-blue-500"
-//               onChange={handleChange}
-//             />
-//           </div>
-
-//           {/* Phone Number */}
-//           <div>
-//             <label className="block text-gray-700 font-medium mb-2">Phone Number</label>
-//             <input
-//               type="text"
-//               name="phoneNumber"
-//               placeholder="Enter your phone number"
-//               required
-//               className="w-full p-4 border rounded-lg focus:ring-2 focus:ring-blue-500"
-//               onChange={handleChange}
-//             />
-//           </div>
-
-//           {/* Academic Information */}
-//           <div className="grid grid-cols-2 gap-4">
-//             <div>
-//               <label className="block text-gray-700 font-medium mb-2">Admission Year</label>
-//               <input
-//                 type="number"
-//                 name="admissionYear"
-//                 required
-//                 className="w-full p-4 border rounded-lg focus:ring-2 focus:ring-blue-500"
-//                 onChange={handleChange}
-//               />
-//             </div>
-
-//             <div>
-//               <label className="block text-gray-700 font-medium mb-2">Graduation Year</label>
-//               <input
-//                 type="number"
-//                 name="graduationYear"
-//                 required
-//                 className="w-full p-4 border rounded-lg focus:ring-2 focus:ring-blue-500"
-//                 onChange={handleChange}
-//               />
-//             </div>
-//           </div>
-
-//           {/* Department */}
-//           <div>
-//             <label className="block text-gray-700 font-medium mb-2">Department</label>
-//             <select
-//               name="department"
-//               required
-//               className="w-full p-4 border rounded-lg focus:ring-2 focus:ring-blue-500"
-//               onChange={handleChange}
-//             >
-//               <option value="">Select Department</option>
-//               <option value="Computer Science">Computer Science</option>
-//               <option value="Software Engineering">Software Engineering</option>
-//               <option value="Electrical Engineering">Electrical Engineering</option>
-//               <option value="Mechanical Engineering">Mechanical Engineering</option>
-//               <option value="Civil Engineering">Civil Engineering</option>
-//               <option value="Biomedical Engineering">Biomedical Engineering</option>
-//             </select>
-//           </div>
-
-//           {/* Password & Confirm Password */}
-//           <div>
-//             <label className="block text-gray-700 font-medium mb-2">Password</label>
-//             <input
-//               type="password"
-//               name="password"
-//               required
-//               className="w-full p-4 border rounded-lg focus:ring-2 focus:ring-blue-500"
-//               onChange={handleChange}
-//             />
-//           </div>
-
-//           <div>
-//             <label className="block text-gray-700 font-medium mb-2">Confirm Password</label>
-//             <input
-//               type="password"
-//               name="confirmPassword"
-//               required
-//               className="w-full p-4 border rounded-lg focus:ring-2 focus:ring-blue-500"
-//               onChange={handleChange}
-//             />
-//           </div>
-
-//           {/* Messages */}
-//           {error && <p className="text-red-500">{error}</p>}
-//           {message && <p className="text-green-500">{message}</p>}
-
-//           {/* Submit Button */}
-//           <button type="submit" className="w-full bg-blue-600 text-white py-3 rounded-lg">
-//             {isSubmitting ? "Registering..." : "Register"}
-//           </button>
-//         </form>
-//       </div>
-
-//       <Footer />
-//     </div>
-//   );
-// };
-
-// export default StudentSignUp;
-
-
 import React, { useState } from "react";
-import axios from "axios";
+import Footer from "../../Components/Footer";
 
 const StudentSignUp = () => {
   const [formData, setFormData] = useState({
-    fullName: "",
+    full_name: "",
     email: "",
-    studentId: "",
-    phoneNumber: "",
-    admissionYear: "",
-    graduationYear: "",
+    student_id: "",
+    phone_number: "",
+    admission_year: "",
+    graduation_year: "",
     department: "",
     password: "",
     confirmPassword: "",
   });
 
   const [error, setError] = useState("");
-  const [successMessage, setSuccessMessage] = useState("");
+  const [success, setSuccess] = useState("");
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -502,98 +250,96 @@ const StudentSignUp = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    
-    // Validate Password Match
+
     if (formData.password !== formData.confirmPassword) {
       setError("Passwords do not match!");
       return;
     }
 
     setError("");
-    
+    setSuccess("");
+
     try {
-      const response = await axios.post("http://127.0.0.1:8000/api/register/", formData);
-      if (response.data.status === "success") {
-        setSuccessMessage("Registration successful! Redirecting to login...");
-        setTimeout(() => {
-          window.location.href = "/signin"; // Redirect to login page
-        }, 2000);
+      const response = await fetch("http://localhost:8000/api/register/", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          full_name: formData.full_name,
+          email: formData.email,
+          student_id: formData.student_id,
+          phone_number: formData.phone_number,
+          admission_year: formData.admission_year,
+          graduation_year: formData.graduation_year,
+          department: formData.department,
+          password: formData.password,
+        }),
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        setSuccess("Registration Successful! Please verify your email.");
+        setFormData({
+          full_name: "",
+          email: "",
+          student_id: "",
+          phone_number: "",
+          admission_year: "",
+          graduation_year: "",
+          department: "",
+          password: "",
+          confirmPassword: "",
+        });
+      } else {
+        setError(data.email || data.student_id || data.error || "Registration failed!");
       }
-    } catch (error) {
-      setError(error.response?.data?.message || "An error occurred. Please try again.");
+    } catch (err) {
+      setError("Failed to connect to server. Please try again.");
     }
   };
 
   return (
     <div className="min-h-screen flex flex-col justify-between bg-gradient-to-b from-gray-50 to-blue-50">
       <div className="flex flex-col items-center justify-center flex-grow p-6">
-        <h1 className="text-4xl md:text-5xl font-extrabold text-center text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-indigo-600 mb-8">
+        <h1 className="text-4xl md:text-5xl font-extrabold text-center text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-indigo-600 mb-8 animate-fade-in-down">
           Student Sign Up
         </h1>
-
-        <form onSubmit={handleSubmit} className="w-full max-w-lg bg-white p-8 rounded-xl shadow-xl space-y-6">
-          {/* Personal Information */}
-          <div>
-            <label className="block text-gray-700 font-medium mb-2">Full Name</label>
-            <input type="text" name="fullName" required className="input-field" onChange={handleChange} />
+        <form
+          onSubmit={handleSubmit}
+          className="w-full max-w-lg bg-white p-8 rounded-xl shadow-xl space-y-6 transform transition-all duration-300 animate-fade-in"
+        >
+          <div className="space-y-4">
+            <h2 className="text-xl font-semibold text-blue-600 mb-2">Personal Information</h2>
+            <input type="text" name="full_name" value={formData.full_name} placeholder="Full Name" required className="w-full p-4 border border-gray-200 rounded-lg" onChange={handleChange} />
+            <input type="email" name="email" value={formData.email} placeholder="Campus Email" required className="w-full p-4 border border-gray-200 rounded-lg" onChange={handleChange} />
+            <input type="text" name="student_id" value={formData.student_id} placeholder="Student ID" required className="w-full p-4 border border-gray-200 rounded-lg" onChange={handleChange} />
+            <input type="text" name="phone_number" value={formData.phone_number} placeholder="Phone Number" required className="w-full p-4 border border-gray-200 rounded-lg" onChange={handleChange} />
           </div>
 
-          <div>
-            <label className="block text-gray-700 font-medium mb-2">Campus Email</label>
-            <input type="email" name="email" required className="input-field" onChange={handleChange} />
+          <div className="space-y-4">
+            <h2 className="text-xl font-semibold text-blue-600 mb-2">Academic Information</h2>
+            <input type="number" name="admission_year" value={formData.admission_year} placeholder="Admission Year" required className="w-full p-4 border border-gray-200 rounded-lg" onChange={handleChange} />
+            <input type="number" name="graduation_year" value={formData.graduation_year} placeholder="Graduation Year" required className="w-full p-4 border border-gray-200 rounded-lg" onChange={handleChange} />
+            <input type="text" name="department" value={formData.department} placeholder="Department" required className="w-full p-4 border border-gray-200 rounded-lg" onChange={handleChange} />
           </div>
 
-          <div>
-            <label className="block text-gray-700 font-medium mb-2">Student ID</label>
-            <input type="text" name="studentId" required className="input-field" onChange={handleChange} />
+          <div className="space-y-4">
+            <h2 className="text-xl font-semibold text-blue-600 mb-2">Create Password</h2>
+            <input type="password" name="password" value={formData.password} placeholder="Password" required className="w-full p-4 border border-gray-200 rounded-lg" onChange={handleChange} />
+            <input type="password" name="confirmPassword" value={formData.confirmPassword} placeholder="Confirm Password" required className="w-full p-4 border border-gray-200 rounded-lg" onChange={handleChange} />
           </div>
 
-          <div>
-            <label className="block text-gray-700 font-medium mb-2">Phone Number</label>
-            <input type="text" name="phoneNumber" required className="input-field" onChange={handleChange} />
-          </div>
+          {error && <p className="text-red-500 text-center">{error}</p>}
+          {success && <p className="text-green-500 text-center">{success}</p>}
 
-          {/* Academic Information */}
-          <div>
-            <label className="block text-gray-700 font-medium mb-2">Admission Year</label>
-            <input type="number" name="admissionYear" required className="input-field" onChange={handleChange} />
-          </div>
-
-          <div>
-            <label className="block text-gray-700 font-medium mb-2">Graduation Year</label>
-            <input type="number" name="graduationYear" required className="input-field" onChange={handleChange} />
-          </div>
-
-          <div>
-            <label className="block text-gray-700 font-medium mb-2">Department</label>
-            <select name="department" required className="input-field" onChange={handleChange}>
-              <option value="">Select Department</option>
-              <option value="Computer Science">Computer Science</option>
-              <option value="Software Engineering">Software Engineering</option>
-              <option value="Electrical Engineering">Electrical Engineering</option>
-              <option value="Mechanical Engineering">Mechanical Engineering</option>
-              <option value="Civil Engineering">Civil Engineering</option>
-              <option value="Biomedical Engineering">Biomedical Engineering</option>
-            </select>
-          </div>
-
-          {/* Password Section */}
-          <div>
-            <label className="block text-gray-700 font-medium mb-2">Password</label>
-            <input type="password" name="password" required className="input-field" onChange={handleChange} />
-          </div>
-
-          <div>
-            <label className="block text-gray-700 font-medium mb-2">Confirm Password</label>
-            <input type="password" name="confirmPassword" required className="input-field" onChange={handleChange} />
-          </div>
-
-          {error && <p className="text-red-500">{error}</p>}
-          {successMessage && <p className="text-green-500">{successMessage}</p>}
-
-          <button type="submit" className="btn-primary">Register</button>
+          <button type="submit" className="w-full bg-blue-600 text-white font-semibold py-4 rounded-lg hover:bg-blue-700">
+            Register
+          </button>
         </form>
       </div>
+      <Footer />
     </div>
   );
 };
