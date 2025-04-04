@@ -228,6 +228,7 @@
 import React, { useState } from "react";
 import Footer from "../../Components/Footer";
 import axios from "axios";
+import { Link } from "react-router-dom"; // Import Link for navigation
 
 const StudentSignUp = () => {
   const [formData, setFormData] = useState({
@@ -254,10 +255,7 @@ const StudentSignUp = () => {
     setError("");
     setSuccess("");
 
-    if (formData.password !== formData.confirmPassword) {
-      setError("The passwords entered do not match. Please ensure they are identical.");
-      return;
-    }
+    console.log("Form Data Submitted:", formData);
 
     try {
       const response = await axios.post(
@@ -288,10 +286,14 @@ const StudentSignUp = () => {
         confirmPassword: "",
       });
     } catch (err) {
-      setError(
+      const errorMessage =
+        err.response?.data?.student_id?.[0] ||
+        err.response?.data?.phone_number?.[0] ||
         err.response?.data?.non_field_errors?.[0] ||
-        "Student registration failed. Please try again later."
-      );
+        err.response?.data?.email?.[0] ||
+        "Student registration failed. Please try again later.";
+      setError(errorMessage);
+      console.error("Error Response:", err.response?.data);
     }
   };
 
@@ -342,14 +344,14 @@ const StudentSignUp = () => {
 
             <div>
               <label htmlFor="student_id" className="block text-gray-700 font-medium mb-2">
-                Student ID
+                Student ID (e.g., ugr/22682/13)
               </label>
               <input
                 type="text"
                 id="student_id"
                 name="student_id"
                 value={formData.student_id}
-                placeholder="Enter your student ID"
+                placeholder="e.g., ugr/22682/13 or ugr/22682/1"
                 required
                 className="w-full p-4 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all duration-300 placeholder-gray-400 text-gray-600"
                 onChange={handleChange}
@@ -358,15 +360,16 @@ const StudentSignUp = () => {
 
             <div>
               <label htmlFor="phone_number" className="block text-gray-700 font-medium mb-2">
-                Phone Number
+                Phone Number (e.g., +251912345678)
               </label>
               <input
                 type="text"
                 id="phone_number"
                 name="phone_number"
                 value={formData.phone_number}
-                placeholder="Enter your phone number"
+                placeholder="e.g., +251912345678 (+2519 + 8 digits)"
                 required
+                autoComplete="tel"
                 className="w-full p-4 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all duration-300 placeholder-gray-400 text-gray-600"
                 onChange={handleChange}
               />
@@ -401,7 +404,7 @@ const StudentSignUp = () => {
                   id="graduation_year"
                   name="graduation_year"
                   value={formData.graduation_year}
-                  placeholder="e.g., 2024"
+                  placeholder="e.g., 2024 or 2025"
                   required
                   className="w-full p-4 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all duration-300 placeholder-gray-400 text-gray-600"
                   onChange={handleChange}
@@ -422,12 +425,12 @@ const StudentSignUp = () => {
                 onChange={handleChange}
               >
                 <option value="">Select Department</option>
-                <option value="Computer Science">Computer Science</option>
-                <option value="Software Engineering">Software Engineering</option>
-                <option value="Electrical Engineering">Electrical Engineering</option>
-                <option value="Mechanical Engineering">Mechanical Engineering</option>
-                <option value="Civil Engineering">Civil Engineering</option>
-                <option value="Biomedical Engineering">Biomedical Engineering</option>
+                <option value="Computer Science">Computer Science (5 years)</option>
+                <option value="Software Engineering">Software Engineering (5 years)</option>
+                <option value="Electrical Engineering">Electrical Engineering (5 years)</option>
+                <option value="Mechanical Engineering">Mechanical Engineering (5 years)</option>
+                <option value="Civil Engineering">Civil Engineering (4 years)</option>
+                <option value="Biomedical Engineering">Biomedical Engineering (4 years)</option>
               </select>
             </div>
           </div>
@@ -436,7 +439,7 @@ const StudentSignUp = () => {
             <h2 className="text-xl font-semibold text-blue-600 mb-2">Create Password</h2>
             <div>
               <label htmlFor="password" className="block text-gray-700 font-medium mb-2">
-                Password
+                Password (min 8 chars, with letter, number, special char)
               </label>
               <input
                 type="password"
@@ -445,6 +448,7 @@ const StudentSignUp = () => {
                 value={formData.password}
                 placeholder="Enter your password"
                 required
+                autoComplete="new-password"
                 className="w-full p-4 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all duration-300 placeholder-gray-400 text-gray-600"
                 onChange={handleChange}
               />
@@ -461,6 +465,7 @@ const StudentSignUp = () => {
                 value={formData.confirmPassword}
                 placeholder="Confirm your password"
                 required
+                autoComplete="new-password"
                 className="w-full p-4 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all duration-300 placeholder-gray-400 text-gray-600"
                 onChange={handleChange}
               />
@@ -473,9 +478,15 @@ const StudentSignUp = () => {
             </p>
           )}
           {success && (
-            <p className="text-green-500 text-sm text-center bg-green-50 p-2 rounded-md animate-pulse">
-              {success}
-            </p>
+            <div className="text-green-500 text-sm text-center bg-green-50 p-2 rounded-md animate-pulse">
+              <p>{success}</p>
+              <Link
+                to="/signin"
+                className="text-blue-600 underline hover:text-blue-800 transition-colors duration-200"
+              >
+                Click here to log in
+              </Link>
+            </div>
           )}
 
           <button
