@@ -178,6 +178,8 @@ const SignIn = () => {
         password: formData.password,
       });
 
+      console.log("Full Response:", response.data);
+
       localStorage.setItem("accessToken", response.data.access);
       localStorage.setItem("refreshToken", response.data.refresh);
       localStorage.setItem("loggedIn", true);
@@ -186,9 +188,20 @@ const SignIn = () => {
       localStorage.setItem("userName", response.data.full_name);
 
       setSuccess("Login Successful! Redirecting...");
-      // Ensure redirect logic covers alumni
-      const redirectPath = response.data.role === "student" ? "/dashboard-student" : "/dashboard-alumni";
-      setTimeout(() => navigate(redirectPath), 1500);
+      const roleToPath = {
+        student: "/dashboard-student",
+        alumni: "/dashboard-alumni",
+        faculty: "/dashboard-faculty",
+        admin: "/dashboard-admin"
+      };
+      const role = response.data.role;
+      const redirectPath = roleToPath[role] || "/";
+      console.log("Role Received:", role);
+      console.log("Redirect Path:", redirectPath);
+      setTimeout(() => {
+        console.log("Navigating to:", redirectPath);
+        navigate(redirectPath);
+      }, 1500);
     } catch (err) {
       const errorMessage =
         err.response?.data?.message || "Login failed. Please try again later.";
@@ -196,6 +209,8 @@ const SignIn = () => {
       console.error("Login Error:", err.response?.data);
     }
   };
+
+ 
 
   return (
     <div className="min-h-screen flex flex-col justify-between bg-gradient-to-b from-gray-50 to-blue-50">
@@ -262,23 +277,12 @@ const SignIn = () => {
 
           <p className="text-gray-600 text-sm text-center">
             Don't have an account?{" "}
-            <a
-              href="/signup/student"
-              className="text-blue-600 font-semibold hover:text-blue-700 transition-colors duration-300"
-            >
-              Sign Up as Student
-            </a>{" "}
-            or{" "}
-            <a
-              href="/signup/alumni"
-              className="text-blue-600 font-semibold hover:text-blue-700 transition-colors duration-300"
-            >
-              Sign Up as Alumni
-            </a>
+            <a href="/signup/student" className="text-blue-600 font-semibold hover:text-blue-700 transition-colors duration-300">Sign Up as Student</a>{" "}
+            | <a href="/signup/alumni" className="text-blue-600 font-semibold hover:text-blue-700 transition-colors duration-300">Alumni</a>{" "}
+            | <a href="/signup/faculty" className="text-blue-600 font-semibold hover:text-blue-700 transition-colors duration-300">Faculty</a>
           </p>
         </form>
       </div>
-
       <Footer />
     </div>
   );
