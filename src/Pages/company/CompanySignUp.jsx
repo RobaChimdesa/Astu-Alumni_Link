@@ -51,7 +51,7 @@ const CompanySignUp = () => {
     };
 
     try {
-      const response = await axios.post("http://localhost:8000/api/signup/company/", dataToSend);
+      const response = await axios.post("http://localhost:8000/api/register/company/", dataToSend);
       setSuccess(response.data.message);  // e.g., "Company registered successfully. Awaiting admin approval."
       setTimeout(() => {
         navigate("/signin");  // Redirect to sign-in after 2 seconds
