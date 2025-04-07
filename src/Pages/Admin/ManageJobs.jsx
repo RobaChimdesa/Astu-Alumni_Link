@@ -248,7 +248,7 @@ const ManageJobs = () => {
               </div>
             ) : (
               <p className="text-center text-gray-600 text-sm sm:text-base font-medium animate-fade-in">
-                No jobs available to manage.
+                No jobs available to manage.nop
               </p>
             )}
           </div>
