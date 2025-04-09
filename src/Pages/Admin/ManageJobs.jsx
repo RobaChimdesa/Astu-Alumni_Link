@@ -189,9 +189,8 @@ const ManageJobs = () => {
                     {jobs.map((job, index) => (
                       <tr
                         key={job.id}
-                        className={`transition-colors duration-200 border border-gray-200 ${
-                          index % 2 === 0 ? "bg-gray-50" : "bg-white"
-                        } hover:bg-blue-100 hover:shadow-md`}
+                        className={`transition-colors duration-200 border border-gray-200 ${index % 2 === 0 ? "bg-gray-50" : "bg-white"
+                          } hover:bg-blue-100 hover:shadow-md`}
                       >
                         <td className="p-3 sm:p-4 text-gray-800 text-sm sm:text-base font-medium border border-gray-200">
                           {job.title}
@@ -209,11 +208,10 @@ const ManageJobs = () => {
                           {job.deadline}
                         </td>
                         <td
-                          className={`p-3 sm:p-4 font-semibold text-sm sm:text-base border border-gray-200 ${
-                            job.status === "Approved"
+                          className={`p-3 sm:p-4 font-semibold text-sm sm:text-base border border-gray-200 ${job.status === "Approved"
                               ? "text-green-600 animate-pulse-once"
                               : "text-yellow-600 animate-pulse-once"
-                          }`}
+                            }`}
                         >
                           {job.status}
                         </td>
