@@ -260,3 +260,50 @@ const ManageUsers = () => {
 };
 
 export default ManageUsers;
+
+
+
+
+// class VerifiedAdmin(models.Model):
+//     username = models.CharField(max_length=150, unique=True)
+//     password = models.CharField(max_length=128)
+
+//     def save(self, *args, **kwargs):
+//         if self.pk is None or 'password' in kwargs:
+//             self.password = make_password(self.password)
+//         super().save(*args, **kwargs)
+
+//     def __str__(self):
+//         return self.username
+
+//     class Meta:
+//         db_table = 'verifiedadmin'  
+// class CompanyRegistration(models.Model):
+//     company_name = models.CharField(max_length=255)
+//     email = models.EmailField(unique=True)
+//     industry_type = models.CharField(max_length=50)
+//     location = models.CharField(max_length=255)
+//     company_size = models.CharField(max_length=50)
+//     website = models.URLField(blank=True, null=True)
+//     company_description = models.TextField()
+//     hr_name = models.CharField(max_length=255)
+//     hr_contact = models.CharField(max_length=50)
+//     password = models.CharField(max_length=128)
+//     status = models.CharField(
+//         max_length=20,
+//         choices=[('pending', 'Pending'), ('approved', 'Approved'), ('rejected', 'Rejected')],
+//         default='pending'
+//     )
+//     created_at = models.DateTimeField(auto_now_add=True)
+
+//     def save(self, *args, **kwargs):
+//         if self.pk is None or 'password' in kwargs:
+//             self.password = make_password(self.password)
+//         super().save(*args, **kwargs)
+
+//     def __str__(self):
+//         return self.email
+
+//     class Meta:
+//         db_table = 'companyregistration'        
+              

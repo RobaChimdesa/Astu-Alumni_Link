@@ -259,7 +259,7 @@ const StudentSignUp = () => {
 
     try {
       const response = await axios.post(
-        "http://localhost:8000/api/register/",
+        "http://localhost:8000/api/register/student/",
         {
           full_name: formData.full_name,
           email: formData.email,

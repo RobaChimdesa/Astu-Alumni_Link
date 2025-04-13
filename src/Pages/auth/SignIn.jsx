@@ -143,6 +143,7 @@
 
 // export default SignIn;
 
+
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Footer from "../../Components/Footer";
@@ -172,9 +173,9 @@ const SignIn = () => {
       return;
     }
 
-    try {
+    try {         //http://localhost:8000/api/login/
       const response = await axios.post("http://localhost:8000/api/login/", {
-        email: formData.email,
+        email: formData.email,   
         password: formData.password,
       });
 
@@ -210,7 +211,7 @@ const SignIn = () => {
     }
   };
 
- 
+
 
   return (
     <div className="min-h-screen flex flex-col justify-between bg-gradient-to-b from-gray-50 to-blue-50">
