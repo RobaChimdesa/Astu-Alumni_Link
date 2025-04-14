@@ -205,6 +205,7 @@
 
 // export default PostJob;
 
+
 import Sidebar from "./Sidebar";
 import React, { useState, useEffect } from "react";
 import axios from "axios";
@@ -225,22 +226,60 @@ const PostJob = () => {
   const [success, setSuccess] = useState("");
   const navigate = useNavigate();
 
-  useEffect(() => {
-    fetchJobs();
-  }, []);
+  const refreshToken = async () => {
+    try {
+      const refresh = localStorage.getItem("refreshToken");
+      if (!refresh) throw new Error("No refresh token");
+      const response = await axios.post("http://localhost:8000/api/token/refresh/", {
+        refresh,
+      });
+      localStorage.setItem("accessToken", response.data.access);
+      return response.data.access;
+    } catch (err) {
+      console.error("Token refresh failed:", err);
+      localStorage.clear();
+      navigate("/signin");
+      return null;
+    }
+  };
 
   const fetchJobs = async () => {
     try {
-      const token = localStorage.getItem("accessToken");
+      let token = localStorage.getItem("accessToken");
+      if (!token) throw new Error("No access token");
+
       const response = await axios.get("http://localhost:8000/api/jobs/", {
         headers: { Authorization: `Bearer ${token}` },
       });
       setJobs(response.data);
     } catch (err) {
-      setError(err.response?.data?.message || "Failed to fetch jobs.");
-      if (err.response?.status === 401) navigate("/signin");
+      console.error("Fetch jobs error:", err.response || err);
+      if (err.response?.status === 401) {
+        const newToken = await refreshToken();
+        if (newToken) {
+          try {
+            const response = await axios.get("http://localhost:8000/api/jobs/", {
+              headers: { Authorization: `Bearer ${newToken}` },
+            });
+            setJobs(response.data);
+          } catch (retryErr) {
+            console.error("Retry failed:", retryErr);
+            setError("Session expired. Please sign in again.");
+            navigate("/signin");
+          }
+        }
+      } else {
+        setError(err.response?.data?.message || "Failed to fetch jobs.");
+      }
     }
   };
+
+  useEffect(() => {
+    console.log("PostJob useEffect: Checking localStorage");
+    console.log("accessToken:", localStorage.getItem("accessToken"));
+    console.log("userRole:", localStorage.getItem("userRole"));
+    fetchJobs();
+  }, []);
 
   const handleChange = (e) => {
     setJobData({ ...jobData, [e.target.name]: e.target.value });
@@ -251,7 +290,9 @@ const PostJob = () => {
     setError("");
     setSuccess("");
     try {
-      const token = localStorage.getItem("accessToken");
+      let token = localStorage.getItem("accessToken");
+      if (!token) throw new Error("No access token");
+
       await axios.post("http://localhost:8000/api/jobs/", jobData, {
         headers: { Authorization: `Bearer ${token}` },
       });
@@ -267,7 +308,33 @@ const PostJob = () => {
       });
       fetchJobs();
     } catch (err) {
-      setError(err.response?.data?.message || "Failed to post job.");
+      console.error("Post job error:", err.response || err);
+      if (err.response?.status === 401) {
+        const newToken = await refreshToken();
+        if (newToken) {
+          try {
+            await axios.post("http://localhost:8000/api/jobs/", jobData, {
+              headers: { Authorization: `Bearer ${newToken}` },
+            });
+            setSuccess("Job posted successfully!");
+            setJobData({
+              title: "",
+              location: "",
+              job_type: "",
+              description: "",
+              requirements: "",
+              apply_link: "",
+              deadline: "",
+            });
+            fetchJobs();
+          } catch (retryErr) {
+            setError("Session expired. Please sign in again.");
+            navigate("/signin");
+          }
+        }
+      } else {
+        setError(err.response?.data?.message || "Failed to post job.");
+      }
     }
   };
 
