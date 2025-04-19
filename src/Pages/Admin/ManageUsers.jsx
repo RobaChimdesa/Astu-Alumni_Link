@@ -1,3 +1,4 @@
+
 // import Sidebar from "./Sidebar";
 // import React, { useState, useEffect } from "react";
 // import Footer from "../../Components/Footer";
@@ -14,7 +15,7 @@
 //   useEffect(() => {
 //     const fetchPendingCompanies = async () => {
 //       const token = localStorage.getItem("accessToken");
-//       console.log(token);
+//       console.log("Access Token:", token);
 //       if (!token) {
 //         setError("Please log in as an admin.");
 //         setLoading(false);
@@ -26,6 +27,7 @@
 //         const response = await axios.get("http://localhost:8000/api/admin/pending-companies/", {
 //           headers: { Authorization: `Bearer ${token}` },
 //         });
+//         console.log("API Response:", response.data); // Debug
 //         setUsers(
 //           response.data.map((company) => ({
 //             id: company.id,
@@ -53,7 +55,7 @@
 //         { company_id: id, action: "approve" },
 //         { headers: { Authorization: `Bearer ${token}` } }
 //       );
-//       setUsers(users.map((user) => (user.id === id ? { ...user, status: "Approved" } : user)));
+//       setUsers(users.map((user) => (user.id === id ? { ...user, status: "approved" } : user)));
 //     } catch (err) {
 //       setError("Failed to approve: " + (err.response?.data?.message || err.message));
 //       console.error("Approval Error:", err.response?.data);
@@ -68,7 +70,7 @@
 //         { company_id: id, action: "reject" },
 //         { headers: { Authorization: `Bearer ${token}` } }
 //       );
-//       setUsers(users.filter((user) => user.id !== id));
+//       setUsers(users.map((user) => (user.id === id ? { ...user, status: "rejected" } : user)));
 //     } catch (err) {
 //       setError("Failed to reject: " + (err.response?.data?.message || err.message));
 //       console.error("Reject Error:", err.response?.data);
@@ -100,49 +102,82 @@
 //                   </tr>
 //                 </thead>
 //                 <tbody>
-//                   {users.map((user, index) => (
-//                     <tr
-//                       key={user.id}
-//                       className={`transition-colors duration-200 border border-gray-200 ${
-//                         index % 2 === 0 ? "bg-gray-50" : "bg-white"
-//                       } hover:bg-blue-100 hover:shadow-md`}
-//                     >
-//                       <td className="p-3 sm:p-4 text-gray-800 text-sm sm:text-base font-medium border border-gray-200">{user.name}</td>
-//                       <td className="p-3 sm:p-4 text-gray-800 text-sm sm:text-base font-medium border border-gray-200">{user.role}</td>
-//                       <td className="p-3 sm:p-4 text-gray-800 text-sm sm:text-base font-medium border border-gray-200">{user.email}</td>
-//                       <td
-//                         className={`p-3 sm:p-4 font-semibold text-sm sm:text-base border border-gray-200 ${
-//                           user.status === "Approved" ? "text-green-600 animate-pulse-once" : "text-yellow-600 animate-pulse-once"
-//                         }`}
+//                   {users.map((user, index) => {
+//                     console.log(`User ${user.email} status:`, user.status, `Lowercase:`, user.status.toLowerCase()); // Enhanced Debug
+//                     return (
+//                       <tr
+//                         key={user.id}
+//                         className={`transition-colors duration-200 border border-gray-200 ${
+//                           index % 2 === 0 ? "bg-gray-50" : "bg-white"
+//                         } hover:bg-blue-100 hover:shadow-md`}
 //                       >
-//                         {user.status}
-//                       </td>
-//                       <td className="p-3 sm:p-4 border border-gray-200">
-//                         <div className="flex space-x-2 sm:space-x-3">
-//                           {user.status.toLowerCase() === "pending" && (
-//                             <button
-//                               className="bg-gradient-to-r from-green-500 to-emerald-600 text-white font-semibold px-4 sm:px-5 py-2 rounded-lg hover:from-green-600 hover:to-emerald-700 transition-all duration-300 transform hover:scale-[1.05] hover:shadow-lg text-sm sm:text-base flex items-center space-x-1"
-//                               onClick={() => approveUser(user.id)}
-//                             >
-//                               <FaCheck /> <span>Approve</span>
-//                             </button>
-//                           )}
-//                           <button
-//                             className="bg-gradient-to-r from-red-500 to-rose-600 text-white font-semibold px-4 sm:px-5 py-2 rounded-lg hover:from-red-600 hover:to-rose-700 transition-all duration-300 transform hover:scale-[1.05] hover:shadow-lg text-sm sm:text-base flex items-center space-x-1"
-//                             onClick={() => deleteUser(user.id)}
-//                           >
-//                             <FaTrash /> <span>Reject</span>
-//                           </button>
-//                         </div>
-//                       </td>
-//                     </tr>
-//                   ))}
+//                         <td className="p-3 sm:p-4 text-gray-800 text-sm sm:text-base font-medium border border-gray-200">{user.name}</td>
+//                         <td className="p-3 sm:p-4 text-gray-800 text-sm sm:text-base font-medium border border-gray-200">{user.role}</td>
+//                         <td className="p-3 sm:p-4 text-gray-800 text-sm sm:text-base font-medium border border-gray-200">{user.email}</td>
+//                         <td
+//                           className={`p-3 sm:p-4 font-semibold text-sm sm:text-base border border-gray-200 ${
+//                             user.status.toLowerCase() === "approved"
+//                               ? "text-green-600 animate-pulse-once"
+//                               : user.status.toLowerCase() === "rejected"
+//                               ? "text-red-600 animate-pulse-once"
+//                               : "text-yellow-600 animate-pulse-once"
+//                           }`}
+//                         >
+//                           {user.status}
+//                         </td>
+//                         <td className="p-3 sm:p-4 border border-gray-200">
+//                           <div className="flex space-x-2 sm:space-x-3">
+//                             {user.status.toLowerCase() === "pending" && (
+//                               <button
+//                                 className="bg-gradient-to-r from-green-500 to-emerald-600 text-white font-semibold px-4 sm:px-5 py-2 rounded-lg hover:from-green-600 hover:to-emerald-700 transition-all duration-300 transform hover:scale-[1.05] hover:shadow-lg text-sm sm:text-base flex items-center space-x-1"
+//                                 onClick={() => approveUser(user.id)}
+//                               >
+//                                 <FaCheck /> <span>Approve</span>
+//                               </button>
+//                             )}
+//                             {user.status.toLowerCase() === "approved" && (
+//                               <>
+//                                 <button
+//                                   className="bg-green-300 text-white font-semibold px-4 sm:px-5 py-2 rounded-lg cursor-not-allowed opacity-50 text-sm sm:text-base flex items-center space-x-1"
+//                                   disabled
+//                                 >
+//                                   <FaCheck /> <span>Approved</span>
+//                                 </button>
+//                                 <button
+//                                   className="bg-gradient-to-r from-red-500 to-rose-600 text-white font-semibold px-4 sm:px-5 py-2 rounded-lg hover:from-red-600 hover:to-rose-700 transition-all duration-300 transform hover:scale-[1.05] hover:shadow-lg text-sm sm:text-base flex items-center space-x-1"
+//                                   onClick={() => deleteUser(user.id)}
+//                                 >
+//                                   <FaTrash /> <span>Reject</span>
+//                                 </button>
+//                               </>
+//                             )}
+//                             {user.status.toLowerCase() === "rejected" && (
+//                               <>
+//                                 <button
+//                                   className="bg-red-300 text-white font-semibold px-4 sm:px-5 py-2 rounded-lg cursor-not-allowed opacity-50 text-sm sm:text-base flex items-center space-x-1"
+//                                   disabled
+//                                 >
+//                                   <FaTrash /> <span>Rejected</span>
+//                                 </button>
+//                                 <button
+//                                   className="bg-gradient-to-r from-green-500 to-emerald-600 text-white font-semibold px-4 sm:px-5 py-2 rounded-lg hover:from-green-600 hover:to-emerald-700 transition-all duration-300 transform hover:scale-[1.05] hover:shadow-lg text-sm sm:text-base flex items-center space-x-1"
+//                                   onClick={() => approveUser(user.id)}
+//                                 >
+//                                   <FaCheck /> <span>Approve</span>
+//                                 </button>
+//                               </>
+//                             )}
+//                           </div>
+//                         </td>
+//                       </tr>
+//                     );
+//                   })}
 //                 </tbody>
 //               </table>
 //             </div>
 //           ) : (
 //             <p className="text-center text-gray-600 text-sm sm:text-base font-medium animate-fade-in">
-//               No pending companies to manage.
+//               No companies to manage.
 //             </p>
 //           )}
 //         </div>
@@ -153,17 +188,18 @@
 // };
 
 // export default ManageUsers;
-import Sidebar from "./Sidebar";
+
 import React, { useState, useEffect } from "react";
-import Footer from "../../Components/Footer";
+import { useNavigate } from "react-router-dom";
 import { FaCheck, FaTrash } from "react-icons/fa";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import Sidebar from "./Sidebar";
 
 const ManageUsers = () => {
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+  const [success, setSuccess] = useState("");
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -178,13 +214,13 @@ const ManageUsers = () => {
       }
 
       try {
-        const response = await axios.get("http://localhost:8000/api/admin/pending-companies/", {
+        const response = await axios.get("http://localhost:8000/api/companies/pending/", {
           headers: { Authorization: `Bearer ${token}` },
         });
-        console.log("API Response:", response.data); // Debug
+        console.log("API Response:", response.data);
         setUsers(
           response.data.map((company) => ({
-            id: company.id,
+            id: company.user_id, // Use user_id from CustomUser
             name: company.company_name,
             role: "Company",
             email: company.email,
@@ -204,11 +240,12 @@ const ManageUsers = () => {
   const approveUser = async (id) => {
     const token = localStorage.getItem("accessToken");
     try {
-      await axios.post(
-        "http://localhost:8000/api/admin/approve-company/",
-        { company_id: id, action: "approve" },
+      const response = await axios.post(
+        "http://localhost:8000/api/admin/approve-user/",
+        { user_id: id, action: "approve" },
         { headers: { Authorization: `Bearer ${token}` } }
       );
+      setSuccess(response.data.message);
       setUsers(users.map((user) => (user.id === id ? { ...user, status: "approved" } : user)));
     } catch (err) {
       setError("Failed to approve: " + (err.response?.data?.message || err.message));
@@ -219,11 +256,12 @@ const ManageUsers = () => {
   const deleteUser = async (id) => {
     const token = localStorage.getItem("accessToken");
     try {
-      await axios.post(
-        "http://localhost:8000/api/admin/approve-company/",
-        { company_id: id, action: "reject" },
+      const response = await axios.post(
+        "http://localhost:8000/api/admin/approve-user/",
+        { user_id: id, action: "reject" },
         { headers: { Authorization: `Bearer ${token}` } }
       );
+      setSuccess(response.data.message);
       setUsers(users.map((user) => (user.id === id ? { ...user, status: "rejected" } : user)));
     } catch (err) {
       setError("Failed to reject: " + (err.response?.data?.message || err.message));
@@ -243,6 +281,8 @@ const ManageUsers = () => {
             <p className="text-center text-gray-600">Loading...</p>
           ) : error ? (
             <p className="text-center text-red-500">{error}</p>
+          ) : success ? (
+            <p className="text-center text-green-500 mb-4">{success}</p>
           ) : users.length > 0 ? (
             <div className="overflow-x-auto">
               <table className="w-full border-collapse border border-gray-200">
@@ -257,7 +297,7 @@ const ManageUsers = () => {
                 </thead>
                 <tbody>
                   {users.map((user, index) => {
-                    console.log(`User ${user.email} status:`, user.status, `Lowercase:`, user.status.toLowerCase()); // Enhanced Debug
+                    console.log(`User ${user.email} status:`, user.status, `Lowercase:`, user.status.toLowerCase());
                     return (
                       <tr
                         key={user.id}
@@ -336,7 +376,6 @@ const ManageUsers = () => {
           )}
         </div>
       </div>
-      {/* <Footer /> */}
     </div>
   );
 };
