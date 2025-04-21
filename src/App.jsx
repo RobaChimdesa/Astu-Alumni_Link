@@ -48,6 +48,8 @@ import ManageDiscussions from "./Pages/Admin/ManageDiscussions";
 import ManageResources from "./Pages/Admin/ManageResources";
 import Profile from "./Pages/Admin/Profile";
 import Status from "./Pages/Admin/Status";
+import ForgotPassword from "./Components/ForgotPassword";  
+
 
 const App = ()=>{
   return (
@@ -56,6 +58,7 @@ const App = ()=>{
         {/* <Navbar /> */}
         <div className="flex-grow">
           <Routes>
+          <Route path="/password/reset" element={<ForgotPassword />} />
             <Route path="/" element={<Home />} />
             <Route path="/signup" element={<SignUp />} />
             <Route path="/signin" element={<SignIn />} />
