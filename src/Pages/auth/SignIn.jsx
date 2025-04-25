@@ -1,6 +1,5 @@
-
 // import React, { useState } from "react";
-// import { useNavigate } from "react-router-dom";
+// import { useNavigate, Link } from "react-router-dom";
 // import Footer from "../../Components/Footer";
 // import axios from "axios";
 
@@ -28,9 +27,9 @@
 //       return;
 //     }
 
-//     try {         //http://localhost:8000/api/login/
+//     try {
 //       const response = await axios.post("http://localhost:8000/api/login/", {
-//         email: formData.email,   
+//         email: formData.email,
 //         password: formData.password,
 //       });
 
@@ -49,7 +48,7 @@
 //         alumni: "/dashboard-alumni",
 //         faculty: "/dashboard-faculty",
 //         admin: "/dashboard-admin",
-//         company: "/dashboard-company"
+//         company: "/dashboard-company",
 //       };
 //       const role = response.data.role;
 //       const redirectPath = roleToPath[role] || "/";
@@ -66,8 +65,6 @@
 //       console.error("Login Error:", err.response?.data);
 //     }
 //   };
-
-
 
 //   return (
 //     <div className="min-h-screen flex flex-col justify-between bg-gradient-to-b from-gray-50 to-blue-50">
@@ -114,6 +111,15 @@
 //             />
 //           </div>
 
+//           <div className="text-right">
+//             <Link
+//               to="/password/reset"
+//               className="text-blue-600 hover:underline text-sm font-semibold"
+//             >
+//               Forgot Password?
+//             </Link>
+//           </div>
+
 //           {error && (
 //             <p className="text-red-500 text-sm text-center bg-red-50 p-2 rounded-md animate-pulse">
 //               {error}
@@ -134,9 +140,21 @@
 
 //           <p className="text-gray-600 text-sm text-center">
 //             Don't have an account?{" "}
-//             <a href="/signup/student" className="text-blue-600 font-semibold hover:text-blue-700 transition-colors duration-300">Sign Up as Student</a>{" "}
-//             | <a href="/signup/alumni" className="text-blue-600 font-semibold hover:text-blue-700 transition-colors duration-300">Alumni</a>{" "}
-//             | <a href="/signup/faculty" className="text-blue-600 font-semibold hover:text-blue-700 transition-colors duration-300">Faculty</a>
+//             <Link to="/signup/student" className="text-blue-600 font-semibold hover:text-blue-700 transition-colors duration-300">
+//               Sign Up as Student
+//             </Link>{" "}
+//             |{" "}
+//             <Link to="/signup/alumni" className="text-blue-600 font-semibold hover:text-blue-700 transition-colors duration-300">
+//               Alumni
+//             </Link>{" "}
+//             |{" "}
+//             <Link to="/signup/faculty" className="text-blue-600 font-semibold hover:text-blue-700 transition-colors duration-300">
+//               Faculty
+//             </Link>{" "}
+//             |{" "}
+//             <Link to="/signup/company" className="text-blue-600 font-semibold hover:text-blue-700 transition-colors duration-300">
+//               Company
+//             </Link>
 //           </p>
 //         </form>
 //       </div>
@@ -157,9 +175,9 @@ const SignIn = () => {
     email: "",
     password: "",
   });
-
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
+  const [tokenStatus, setTokenStatus] = useState("");
   const navigate = useNavigate();
 
   const handleChange = (e) => {
@@ -170,48 +188,59 @@ const SignIn = () => {
     e.preventDefault();
     setError("");
     setSuccess("");
+    setTokenStatus("");
+
+    console.log("SIGNIN: Form submitted for email:", formData.email, new Date().toISOString());
 
     if (!formData.email || !formData.password) {
       setError("All fields are required!");
+      console.log("SIGNIN: Validation failed - missing fields", new Date().toISOString());
       return;
     }
 
     try {
+      console.log("SIGNIN: Sending login request to /api/login/", new Date().toISOString());
       const response = await axios.post("http://localhost:8000/api/login/", {
         email: formData.email,
         password: formData.password,
       });
 
-      console.log("Full Response:", response.data);
+      console.log("SIGNIN: Login Response:", JSON.stringify(response.data, null, 2), new Date().toISOString());
 
-      localStorage.setItem("accessToken", response.data.access);
-      localStorage.setItem("refreshToken", response.data.refresh);
-      localStorage.setItem("loggedIn", true);
-      localStorage.setItem("userRole", response.data.role);
-      localStorage.setItem("userEmail", response.data.email);
-      localStorage.setItem("userName", response.data.full_name);
+      // Extract token
+      const accessToken = response.data.access;
+      if (!accessToken) {
+        throw new Error("No access token received. Response: " + JSON.stringify(response.data));
+      }
 
-      setSuccess("Login Successful! Redirecting...");
-      const roleToPath = {
-        student: "/dashboard-student",
-        alumni: "/dashboard-alumni",
-        faculty: "/dashboard-faculty",
-        admin: "/dashboard-admin",
-        company: "/dashboard-company",
-      };
-      const role = response.data.role;
-      const redirectPath = roleToPath[role] || "/";
-      console.log("Role Received:", role);
-      console.log("Redirect Path:", redirectPath);
+      // Clear and store in localStorage
+      localStorage.clear();
+      localStorage.setItem("accessToken", accessToken);
+      localStorage.setItem("userRole", response.data.role || "alumni");
+      localStorage.setItem("userEmail", response.data.email || formData.email);
+
+      // Verify storage
+      const storedToken = localStorage.getItem("accessToken");
+      console.log("SIGNIN: Token stored in localStorage:", storedToken, new Date().toISOString());
+      console.log("SIGNIN: localStorage contents:", JSON.stringify(localStorage, null, 2), new Date().toISOString());
+
+      if (!storedToken) {
+        throw new Error("Failed to store token in localStorage.");
+      }
+
+      setSuccess("Login Successful!");
+      setTokenStatus(`Token stored: ${storedToken.slice(0, 10)}...`);
+
+      // Redirect
       setTimeout(() => {
-        console.log("Navigating to:", redirectPath);
-        navigate(redirectPath);
-      }, 1500);
+        console.log("SIGNIN: Navigating to /dashboard-alumni", new Date().toISOString());
+        navigate("/dashboard-alumni");
+      }, 1000);
     } catch (err) {
       const errorMessage =
-        err.response?.data?.message || "Login failed. Please try again later.";
+        err.response?.data?.message || err.message || "Login failed. Please check your credentials.";
       setError(errorMessage);
-      console.error("Login Error:", err.response?.data);
+      console.error("SIGNIN: Login Error:", err.message, err.response?.data, new Date().toISOString());
     }
   };
 
@@ -277,6 +306,11 @@ const SignIn = () => {
           {success && (
             <p className="text-green-500 text-sm text-center bg-green-50 p-2 rounded-md animate-pulse">
               {success}
+            </p>
+          )}
+          {tokenStatus && (
+            <p className="text-blue-500 text-sm text-center bg-blue-50 p-2 rounded-md animate-pulse">
+              {tokenStatus}
             </p>
           )}
 

@@ -150,6 +150,7 @@ const AlumniJobListings = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
+    console.log("AlumniJobListings mounted, checking token:", localStorage.getItem("accessToken"));
     fetchJobs();
     fetchApplications();
   }, []);
@@ -159,7 +160,10 @@ const AlumniJobListings = () => {
       const token = localStorage.getItem("accessToken");
       console.log("Fetching jobs, token:", token ? "Present" : "Missing");
       if (!token) {
-        throw new Error("No access token found. Please log in.");
+        setError("Please log in to view jobs.");
+        console.log("No token, navigating to /signin");
+        navigate("/signin", { state: { error: "Please log in to view jobs." } });
+        return;
       }
       const response = await axios.get("http://localhost:8000/api/jobs/", {
         headers: { Authorization: `Bearer ${token}` },
@@ -172,10 +176,10 @@ const AlumniJobListings = () => {
       console.error("Failed to fetch jobs:", err.message, err.response?.data, err.response?.status);
       const errorMsg = err.response?.data?.detail || "Failed to fetch jobs.";
       setError(errorMsg);
-      if (err.response?.status === 401) {
-        console.log("Unauthorized, redirecting to /signin");
+      if (err.response?.status === 401 && errorMsg !== "User is inactive") {
+        console.log("Unauthorized (non-inactive), clearing token and navigating to /signin");
         localStorage.removeItem("accessToken");
-        navigate("/signin", { state: { error: errorMsg } }); // Pass error to sign-in page
+        navigate("/signin", { state: { error: errorMsg } });
       }
     }
   };
@@ -185,7 +189,10 @@ const AlumniJobListings = () => {
       const token = localStorage.getItem("accessToken");
       console.log("Fetching applications, token:", token ? "Present" : "Missing");
       if (!token) {
-        throw new Error("No access token found. Please log in.");
+        setError("Please log in to view applications.");
+        console.log("No token, navigating to /signin");
+        navigate("/signin", { state: { error: "Please log in to view applications." } });
+        return;
       }
       const response = await axios.get("http://localhost:8000/api/job-applications/", {
         headers: { Authorization: `Bearer ${token}` },
@@ -198,8 +205,8 @@ const AlumniJobListings = () => {
       console.error("Failed to fetch applications:", err.message, err.response?.data, err.response?.status);
       const errorMsg = err.response?.data?.detail || "Failed to fetch applications.";
       setError(errorMsg);
-      if (err.response?.status === 401) {
-        console.log("Unauthorized, redirecting to /signin");
+      if (err.response?.status === 401 && errorMsg !== "User is inactive") {
+        console.log("Unauthorized (non-inactive), clearing token and navigating to /signin");
         localStorage.removeItem("accessToken");
         navigate("/signin", { state: { error: errorMsg } });
       }
@@ -209,15 +216,23 @@ const AlumniJobListings = () => {
   const handleApply = async (jobId) => {
     try {
       const token = localStorage.getItem("accessToken");
-      if (!token) throw new Error("No access token found. Please log in.");
-      await axios.post(
+      console.log("Applying for job, token:", token ? "Present" : "Missing");
+      if (!token) {
+        setError("Please log in to apply for jobs.");
+        console.log("No token, navigating to /signin");
+        navigate("/signin", { state: { error: "Please log in to apply for jobs." } });
+        return;
+      }
+      const response = await axios.post(
         "http://localhost:8000/api/job-applications/",
         { job_id: jobId },
         { headers: { Authorization: `Bearer ${token}` } }
       );
+      console.log("Application submitted:", response.data);
       setError("");
       fetchApplications();
     } catch (err) {
+      console.error("Failed to apply:", err.message, err.response?.data, err.response?.status);
       setError(err.response?.data?.message || "Failed to apply for job.");
     }
   };
