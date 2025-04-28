@@ -6,7 +6,7 @@
 
 // const ManageJobs = () => {
 //   const [jobs, setJobs] = useState([]);
-//   const [companies, setCompanies] = useState([]); // New state for companies
+//   const [companies, setCompanies] = useState([]);
 //   const [newJob, setNewJob] = useState({
 //     title: "",
 //     company_id: "",
@@ -25,7 +25,7 @@
 
 //   useEffect(() => {
 //     fetchJobs();
-//     fetchCompanies(); // Fetch companies on mount
+//     fetchCompanies();
 //   }, []);
 
 //   const fetchJobs = async () => {
@@ -111,7 +111,7 @@
 //   const handleApprove = async (jobId) => {
 //     try {
 //       console.log(`Approving job ${jobId} with payload: { status: 'approved' }`);
-//       const token = localStorage.getItem("accessToken"); // Fixed token key
+//       const token = localStorage.getItem("accessToken");
 //       if (!token) {
 //         throw new Error("No access token found. Please log in.");
 //       }
@@ -120,12 +120,12 @@
 //         { status: "approved" },
 //         { headers: { Authorization: `Bearer ${token}` } }
 //       );
-//       console.log("Job approved:", response.data);
+//       console.log("Job approved, response:", response.data);
 //       setSuccess("Job approved successfully!");
-//       fetchJobs(); // Refresh job list
+//       fetchJobs();
 //     } catch (error) {
 //       console.error("Failed to approve job:", error.message, error.response?.data, error.response?.status);
-//       setError(error.response?.data?.error || error.message); // Display error in UI
+//       setError(error.response?.data?.error || error.message);
 //       throw error;
 //     }
 //   };
@@ -283,7 +283,7 @@
 //                             )}
 //                             <button
 //                               onClick={() => handleEdit(job)}
-//                               className="bg-gradient-to-r from-blue-500 to-indigo-600 text-white font-semibold px-4 sm:px-5 py-2 rounded-lg hover:from-blue-600 hover:to-indigo-700 transition-all duration-300 transform hover:scale-[1.05] hover:shadow-lg text-sm sm:text-base flex items-center space-x-1"
+//                               className="bg-gradient-to-r from-blue-500 to-indigo-600 text-white font-semibold px-4 sm:px-5 py-2 rounded-lg hover:from-blue-600 hover:to-indigo-700 transition-all duration-200 transform hover:scale-[1.05] hover:shadow-lg text-sm sm:text-base flex items-center space-x-1"
 //                             >
 //                               <FaEdit /> <span>Edit</span>
 //                             </button>
@@ -313,7 +313,6 @@
 // };
 
 // export default ManageJobs;
-
 
 import React, { useState, useEffect } from "react";
 import axios from "axios";
@@ -354,7 +353,7 @@ const ManageJobs = () => {
       });
       setJobs(response.data);
     } catch (err) {
-      setError(err.response?.data?.message || "Failed to fetch jobs.");
+      setError(err.response?.data?.error || "Failed to fetch jobs.");
       if (err.response?.status === 401) navigate("/signin");
     }
   };
@@ -368,7 +367,7 @@ const ManageJobs = () => {
       });
       setCompanies(response.data.filter(company => company.status === "approved"));
     } catch (err) {
-      setError(err.response?.data?.message || "Failed to fetch companies.");
+      setError(err.response?.data?.error || "Failed to fetch companies.");
     }
   };
 
@@ -376,29 +375,45 @@ const ManageJobs = () => {
     setNewJob({ ...newJob, [e.target.name]: e.target.value });
   };
 
+  const validateApplyLink = (link) => {
+    if (!link) return "Application link is required.";
+    if (!link.startsWith("https://forms.gle/")) {
+      return "Application link must be a valid Google Form URL (e.g., https://forms.gle/...).";
+    }
+    return "";
+  };
+
   const handleAdd = async () => {
-    if (newJob.title && newJob.company_id) {
-      try {
-        const token = localStorage.getItem("accessToken");
-        if (!token) throw new Error("No access token found. Please log in.");
-        await axios.post("http://localhost:8000/api/jobs/", newJob, {
-          headers: { Authorization: `Bearer ${token}` },
-        });
-        setSuccess("Job added successfully!");
-        setNewJob({ title: "", company_id: "", location: "", job_type: "", deadline: "", description: "", requirements: "", apply_link: "" });
-        fetchJobs();
-      } catch (err) {
-        setError(err.response?.data?.message || "Failed to add job.");
-      }
-    } else {
+    if (!newJob.title || !newJob.company_id) {
       setError("Please fill in Title and Company.");
+      return;
+    }
+    const applyLinkError = validateApplyLink(newJob.apply_link);
+    if (applyLinkError) {
+      setError(applyLinkError);
+      return;
+    }
+    try {
+      const token = localStorage.getItem("accessToken");
+      if (!token) throw new Error("No access token found. Please log in.");
+      console.log("Posting new job:", newJob);
+      const response = await axios.post("http://localhost:8000/api/jobs/", newJob, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      console.log("Job added:", response.data);
+      setSuccess("Job added successfully!");
+      setNewJob({ title: "", company_id: "", location: "", job_type: "", deadline: "", description: "", requirements: "", apply_link: "" });
+      fetchJobs();
+    } catch (err) {
+      console.error("Add job error:", err.response || err);
+      setError(err.response?.data?.error || "Failed to add job.");
     }
   };
 
   const handleEdit = (job) => {
     setNewJob({
       title: job.title,
-      company_id: job.company_id,
+      company_id: "", // Company ID not returned in job data; must select manually
       location: job.location,
       job_type: job.job_type,
       deadline: job.deadline,
@@ -410,18 +425,30 @@ const ManageJobs = () => {
   };
 
   const handleSave = async () => {
+    if (!newJob.title || !newJob.company_id) {
+      setError("Please fill in Title and Company.");
+      return;
+    }
+    const applyLinkError = validateApplyLink(newJob.apply_link);
+    if (applyLinkError) {
+      setError(applyLinkError);
+      return;
+    }
     try {
       const token = localStorage.getItem("accessToken");
       if (!token) throw new Error("No access token found. Please log in.");
-      await axios.put(`http://localhost:8000/api/jobs/${editId}/`, newJob, {
+      console.log("Updating job:", newJob);
+      const response = await axios.put(`http://localhost:8000/api/jobs/${editId}/`, newJob, {
         headers: { Authorization: `Bearer ${token}` },
       });
+      console.log("Job updated:", response.data);
       setSuccess("Job updated successfully!");
       setNewJob({ title: "", company_id: "", location: "", job_type: "", deadline: "", description: "", requirements: "", apply_link: "" });
       setEditId(null);
       fetchJobs();
     } catch (err) {
-      setError(err.response?.data?.message || "Failed to update job.");
+      console.error("Update job error:", err.response || err);
+      setError(err.response?.data?.error || "Failed to update job.");
     }
   };
 
@@ -429,21 +456,18 @@ const ManageJobs = () => {
     try {
       console.log(`Approving job ${jobId} with payload: { status: 'approved' }`);
       const token = localStorage.getItem("accessToken");
-      if (!token) {
-        throw new Error("No access token found. Please log in.");
-      }
+      if (!token) throw new Error("No access token found. Please log in.");
       const response = await axios.put(
         `http://localhost:8000/api/jobs/${jobId}/`,
         { status: "approved" },
         { headers: { Authorization: `Bearer ${token}` } }
       );
-      console.log("Job approved, response:", response.data);
+      console.log("Job approved:", response.data);
       setSuccess("Job approved successfully!");
       fetchJobs();
-    } catch (error) {
-      console.error("Failed to approve job:", error.message, error.response?.data, error.response?.status);
-      setError(error.response?.data?.error || error.message);
-      throw error;
+    } catch (err) {
+      console.error("Approve job error:", err.response || err);
+      setError(err.response?.data?.error || "Failed to approve job.");
     }
   };
 
@@ -458,7 +482,8 @@ const ManageJobs = () => {
       setSuccess("Job deleted successfully!");
       fetchJobs();
     } catch (err) {
-      setError(err.response?.data?.message || "Failed to delete job.");
+      console.error("Delete job error:", err.response || err);
+      setError(err.response?.data?.error || "Failed to delete job.");
     }
   };
 
@@ -483,12 +508,14 @@ const ManageJobs = () => {
                 value={newJob.title}
                 onChange={handleChange}
                 className="p-3 sm:p-4 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-all duration-200 text-sm sm:text-base"
+                required
               />
               <select
                 name="company_id"
                 value={newJob.company_id}
                 onChange={handleChange}
                 className="p-3 sm:p-4 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-all duration-200 text-sm sm:text-base"
+                required
               >
                 <option value="">Select Company *</option>
                 {companies.map((company) => (
@@ -537,14 +564,26 @@ const ManageJobs = () => {
                 onChange={handleChange}
                 className="p-3 sm:p-4 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-all duration-200 text-sm sm:text-base md:col-span-2"
               />
-              <input
-                type="url"
-                name="apply_link"
-                placeholder="Application Link"
-                value={newJob.apply_link}
-                onChange={handleChange}
-                className="p-3 sm:p-4 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-all duration-200 text-sm sm:text-base md:col-span-2"
-              />
+              <div className="md:col-span-2">
+                <input
+                  type="url"
+                  name="apply_link"
+                  placeholder="Application Link (e.g., https://forms.gle/...)"
+                  value={newJob.apply_link}
+                  onChange={handleChange}
+                  className="p-3 sm:p-4 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-all duration-200 text-sm sm:text-base w-full"
+                  required
+                />
+                <p className="text-gray-600 text-sm mt-2">
+                  The application link must be a Google Form URL (e.g., https://forms.gle/...). To create one:
+                  <ol className="list-decimal list-inside mt-1">
+                    <li>Go to <a href="https://forms.google.com" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">Google Forms</a>.</li>
+                    <li>Create a new form with fields for applicant details (e.g., name, email, resume).</li>
+                    <li>Click "Send," select the link option, and shorten the URL to get a https://forms.gle/... link.</li>
+                    <li>Copy and paste the shortened URL here.</li>
+                  </ol>
+                </p>
+              </div>
             </div>
             {error && <p className="text-red-500 mt-4">{error}</p>}
             {success && <p className="text-green-500 mt-4">{success}</p>}
@@ -607,7 +646,7 @@ const ManageJobs = () => {
                             <button
                               onClick={() => handleDelete(job.id)}
                               className="bg-gradient-to-r from-red-500 to-rose-600 text-white font-semibold px-4 sm:px-5 py-2 rounded-lg hover:from-red-600 hover:to-rose-700 transition-all duration-300 transform hover:scale-[1.05] hover:shadow-lg text-sm sm:text-base flex items-center space-x-1"
-                            >
+                              >
                               <FaTrash /> <span>Delete</span>
                             </button>
                           </div>
