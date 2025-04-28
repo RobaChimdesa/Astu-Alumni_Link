@@ -152,6 +152,7 @@ const AlumniJobListings = () => {
   const [applyLink, setApplyLink] = useState(null);
   const [applicationId, setApplicationId] = useState(null);
   const [formSubmitted, setFormSubmitted] = useState(false);
+  const [formOpened, setFormOpened] = useState(false); // Track if Google Form was opened
   const navigate = useNavigate();
 
   const refreshToken = async () => {
@@ -209,6 +210,8 @@ const AlumniJobListings = () => {
     setApplyLink(null);
     setApplicationId(null);
     setFormSubmitted(false);
+    setFormOpened(false);
+    console.log(`handleApply: Reset state - applyLink: ${applyLink}, formSubmitted: ${formSubmitted}, applicationId: ${applicationId}, formOpened: ${formOpened}`);
     try {
       let token = localStorage.getItem('accessToken');
       if (!token) throw new Error('No access token');
@@ -218,14 +221,16 @@ const AlumniJobListings = () => {
         { job: jobId },
         { headers: { Authorization: `Bearer ${token}` } }
       );
-      console.log('Application response:', response.data);
-      if (!response.data.application) {
-        throw new Error('Application data missing in response');
+      console.log('Application response:', JSON.stringify(response.data, null, 2));
+      if (!response.data.application || !response.data.message || !response.data.apply_link) {
+        console.error('Incomplete response:', response.data);
+        throw new Error('Incomplete application response: missing application, message, or apply_link');
       }
       setSuccess(response.data.message);
       setApplyLink(response.data.apply_link);
       setFormSubmitted(response.data.application.form_submitted);
       setApplicationId(response.data.application.id);
+      console.log(`handleApply: Updated state - applyLink: ${response.data.apply_link}, formSubmitted: ${response.data.application.form_submitted}, applicationId: ${response.data.application.id}, formOpened: ${formOpened}`);
     } catch (err) {
       console.error('Failed to apply:', err);
       if (err.response?.status === 401) {
@@ -237,14 +242,16 @@ const AlumniJobListings = () => {
               { job: jobId },
               { headers: { Authorization: `Bearer ${newToken}` } }
             );
-            console.log('Application response:', response.data);
-            if (!response.data.application) {
-              throw new Error('Application data missing in response');
+            console.log('Application response:', JSON.stringify(response.data, null, 2));
+            if (!response.data.application || !response.data.message || !response.data.apply_link) {
+              console.error('Incomplete response:', response.data);
+              throw new Error('Incomplete application response: missing application, message, or apply_link');
             }
             setSuccess(response.data.message);
             setApplyLink(response.data.apply_link);
             setFormSubmitted(response.data.application.form_submitted);
             setApplicationId(response.data.application.id);
+            console.log(`handleApply: Updated state (retry) - applyLink: ${response.data.apply_link}, formSubmitted: ${response.data.application.form_submitted}, applicationId: ${response.data.application.id}, formOpened: ${formOpened}`);
           } catch (retryErr) {
             console.error('Retry failed:', retryErr);
             setError('Session expired. Please sign in again.');
@@ -276,6 +283,8 @@ const AlumniJobListings = () => {
       setApplyLink(null);
       setApplicationId(null);
       setFormSubmitted(true);
+      setFormOpened(false);
+      console.log(`handleConfirmSubmission: Reset state - applyLink: ${applyLink}, formSubmitted: ${formSubmitted}, applicationId: ${applicationId}, formOpened: ${formOpened}`);
     } catch (err) {
       console.error('Failed to confirm submission:', err);
       if (err.response?.status === 401) {
@@ -292,6 +301,8 @@ const AlumniJobListings = () => {
             setApplyLink(null);
             setApplicationId(null);
             setFormSubmitted(true);
+            setFormOpened(false);
+            console.log(`handleConfirmSubmission: Reset state (retry) - applyLink: ${applyLink}, formSubmitted: ${formSubmitted}, applicationId: ${applicationId}, formOpened: ${formOpened}`);
           } catch (retryErr) {
             console.error('Retry failed:', retryErr);
             setError('Session expired. Please sign in again.');
@@ -302,6 +313,11 @@ const AlumniJobListings = () => {
         setError(err.response?.data?.error || 'Failed to confirm form submission.');
       }
     }
+  };
+
+  const handleFormOpen = () => {
+    setFormOpened(true);
+    console.log(`handleFormOpen: Updated formOpened: ${formOpened}`);
   };
 
   return (
@@ -323,13 +339,13 @@ const AlumniJobListings = () => {
                   target="_blank"
                   rel="noopener noreferrer"
                   className="text-blue-600 hover:underline font-semibold"
-                  onClick={() => console.log(`Navigating to Google Form: ${applyLink}`)}
+                  onClick={handleFormOpen}
                 >
                   Continue
                 </a>
               </span>
             )}
-            {applyLink && !formSubmitted && (
+            {applyLink && !formSubmitted && formOpened && (
               <div className="mt-2">
                 <button
                   onClick={handleConfirmSubmission}
