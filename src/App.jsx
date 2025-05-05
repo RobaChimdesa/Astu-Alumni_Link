@@ -49,6 +49,7 @@ import ManageResources from "./Pages/Admin/ManageResources";
 import Profile from "./Pages/Admin/Profile";
 import Status from "./Pages/Admin/Status";
 import ForgotPassword from "./Components/ForgotPassword";  
+// import AlumniNotifications from "./Pages/alumni/AlumniNotifications";
 
 
 const App = ()=>{
@@ -58,6 +59,8 @@ const App = ()=>{
         {/* <Navbar /> */}
         <div className="flex-grow">
           <Routes>
+          {/* <Route path="/alumni" element={<Layout />}>
+          <Route path="notifications" element={<AlumniNotifications />} /> */}
           <Route path="/password/reset" element={<ForgotPassword />} />
             <Route path="/" element={<Home />} />
             <Route path="/signup" element={<SignUp />} />
